@@ -1,65 +1,149 @@
-import Image from "next/image";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen overflow-x-hidden">
+
+      {/* HERO SECTION */}
+      <section
+        className="
+          relative
+          min-h-screen
+          bg-[url('/bg.jpg')]
+          bg-[length:120%_auto]
+          bg-[position:0%_center]
+          bg-no-repeat
+          rounded-[22px]
+        "
+      >
+        <Navbar />
+
+        {/* Hero Content */}
+        <div
+          className="
+            absolute
+            top-[271px]
+            left-[92px]
+            w-[657px]
+          "
+        >
+          <h1
+            className="
+              font-poppins
+              font-medium
+              text-[61px]
+              leading-[92px]
+              text-white
+            "
+          >
+            Nurturing Kids. Healing the Planet. Building the Future
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p
+            className="
+              mt-4
+              w-[657px]
+              text-white
+              text-[18px]
+              leading-[28px]
+            "
+          >
+            Learn about biomes, wildlife, ecosystems, and climate through simple,
+            engaging lessons made for young learners.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* ABOUT / MISSION SECTION */}
+      <section
+        className="
+          mt-[120px]
+          mx-auto
+          w-[1166px]
+          text-center
+        "
+      >
+        <h2
+          className="
+            font-poppins
+            font-medium
+            text-[61px]
+            leading-[92px]
+            text-black
+          "
+        >
+          We’re here to inspire young changemakers.
+        </h2>
+
+        <p
+          className="
+            mt-6
+            text-[18px]
+            leading-[28px]
+            text-gray-700
+          "
+        >
+          Buddy’s Burrow creates a safe and fun space where students discover
+          nature, understand the planet, and learn how their actions can help
+          protect it. Every lesson, event, and activity is designed to empower a
+          greener future.
+        </p>
+      </section>
+
+      {/* CONTENT CARD SECTION */}
+      <section
+        className="
+          mt-[120px]
+          mx-auto
+          w-[1340px]
+          rounded-[24px]
+          border
+          border-gray-200
+          p-[32px]
+          flex
+          justify-between
+        "
+      >
+        {/* Left Content */}
+        <div className="w-[620px]">
+          <h3
+            className="
+              font-poppins
+              font-medium
+              text-[32px]
+              leading-[44px]
+            "
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Learn. Explore. Protect.
+          </h3>
+
+          <p className="mt-4 text-[18px] leading-[28px] text-gray-700">
+            Buddy’s Burrow is an environmental learning platform designed to help
+            students understand nature in a clear, practical way. Through simple
+            explanations, real-world examples, and hands-on activities, we teach
+            young people how ecosystems work, why wildlife matters, and how
+            small actions can help protect the planet.
+          </p>
+
+          <button
+            className="
+              mt-6
+              px-6
+              py-3
+              rounded-md
+              bg-[#005715]
+              text-white
+              font-medium
+            "
           >
-            Documentation
-          </a>
+            View more
+          </button>
         </div>
-      </main>
-    </div>
+
+        {/* Right Placeholder (image/video later) */}
+        <div className="w-[620px] h-[560px] bg-gray-100 rounded-xl" />
+      </section>
+
+    </main>
   );
 }
