@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer"
 import Image from "next/image";
+=======
+// import Navbar from "../components/Navbar";
+>>>>>>> 2fbe7984d6a40d6ab46b5f0988041d15b4c8d171
 
 export default function Home() {
   return (
@@ -94,7 +98,13 @@ export default function Home() {
     justify-center
   "
       >
+<<<<<<< HEAD
         {/* INNER WRAPPER */}
+=======
+        {/* <Navbar /> */}
+
+        {/* Hero Content */}
+>>>>>>> 2fbe7984d6a40d6ab46b5f0988041d15b4c8d171
         <div
           className="
       w-full
