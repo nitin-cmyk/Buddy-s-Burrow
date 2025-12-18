@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -14,6 +13,7 @@ export default function Navbar() {
       const purposeSection = document.getElementById("purpose");
 
       if (!purposeSection) return;
+
       const triggerPoint =
         purposeSection.offsetTop - 100; // adjust for navbar height
 
@@ -60,10 +60,11 @@ export default function Navbar() {
           {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
             <span
               key={item}
-              className={`text-sm font-medium font-poppins cursor-pointer transition-colors ${scrolled
-                ? "text-black hover:text-gray-600"
-                : "text-white hover:text-white/80"
-                }`}
+              className={`text-sm font-medium font-poppins cursor-pointer transition-colors ${
+                scrolled
+                  ? "text-black hover:text-gray-600"
+                  : "text-white hover:text-white/80"
+              }`}
             >
               {item}
             </span>
@@ -100,8 +101,9 @@ export default function Navbar() {
           {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
             <span
               key={item}
-              className={`text-sm font-medium font-poppins ${scrolled ? "text-black" : "text-white"
-                }`}
+              className={`text-sm font-medium font-poppins ${
+                scrolled ? "text-black" : "text-white"
+              }`}
             >
               {item}
             </span>

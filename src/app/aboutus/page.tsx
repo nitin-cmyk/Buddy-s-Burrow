@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Footer from "../../components/footer"
 
 export default function AboutPage() {
     return (
@@ -164,7 +165,6 @@ export default function AboutPage() {
                 </div>
             </section>
 
-
             <section className="w-full">
                 <div
                     className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] pt-[40px] sm:pt-[60px] lg:pt-[80px] pb-[60px] sm:pb-[80px] lg:pb-[120px]">
@@ -274,6 +274,8 @@ export default function AboutPage() {
                     </div>
                 </div>
             </section>
+
+            <Footer />
 
 
         </main>
