@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
+
+const NAV_LINKS = [
+  { label: "About Us", href: "/aboutus" },
+  { label: "Courses", href: "/#courses" },
+  { label: "Events", href: "/#events" },
+  { label: "News & Blogs", href: "/#blogs" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -11,12 +19,9 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       const purposeSection = document.getElementById("purpose");
-
       if (!purposeSection) return;
 
-      const triggerPoint =
-        purposeSection.offsetTop - 100; // adjust for navbar height
-
+      const triggerPoint = purposeSection.offsetTop - 100;
       setScrolled(window.scrollY >= triggerPoint);
     };
 
@@ -42,7 +47,7 @@ export default function Navbar() {
         ${navBg}`}
       >
         {/* LOGO */}
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src={scrolled ? "/logoTrans.png" : "/logo.png"}
             alt="Buddy’s Burrow Logo"
@@ -53,32 +58,40 @@ export default function Navbar() {
           <span className="text-base sm:text-lg font-semibold font-poppins whitespace-nowrap">
             Buddy’s Burrow
           </span>
-        </div>
+        </Link>
 
         {/* DESKTOP MENU */}
         <div className="hidden md:flex mx-auto items-center gap-8">
-          {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
-            <span
-              key={item}
-              className={`text-sm font-medium font-poppins cursor-pointer transition-colors ${
+          {NAV_LINKS.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`text-sm font-medium font-poppins transition-colors ${
                 scrolled
                   ? "text-black hover:text-gray-600"
                   : "text-white hover:text-white/80"
               }`}
             >
-              {item}
-            </span>
+              {item.label}
+            </Link>
           ))}
         </div>
 
         {/* DESKTOP ACTIONS */}
         <div className="hidden md:flex items-center gap-3 ml-auto">
-          <button className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]">
+          <Link
+            href="/login"
+            className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+          >
             Login
-          </button>
-          <button className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]">
+          </Link>
+
+          <Link
+            href="/#donate"
+            className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+          >
             Donate Us
-          </button>
+          </Link>
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -98,24 +111,35 @@ export default function Navbar() {
           rounded-xl p-6 flex flex-col gap-4
           transition-all ${navBg}`}
         >
-          {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
-            <span
-              key={item}
+          {NAV_LINKS.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
               className={`text-sm font-medium font-poppins ${
                 scrolled ? "text-black" : "text-white"
               }`}
             >
-              {item}
-            </span>
+              {item.label}
+            </Link>
           ))}
 
           <div className="flex gap-3 pt-4">
-            <button className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B]">
+            <Link
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+              className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
+            >
               Login
-            </button>
-            <button className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B]">
+            </Link>
+
+            <Link
+              href="/#donate"
+              onClick={() => setMenuOpen(false)}
+              className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
+            >
               Donate Us
-            </button>
+            </Link>
           </div>
         </div>
       )}
