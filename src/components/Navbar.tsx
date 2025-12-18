@@ -5,46 +5,17 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-<<<<<<< HEAD
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       const purposeSection = document.getElementById("purpose");
-=======
-  return (
-    <nav
-      className="
-        fixed top-6 left-6
-        w-[calc(100%-48px)]
-        h-[88px]
-        rounded-[12px]
-        flex items-center
-        px-[20px]
->>>>>>> 2fbe7984d6a40d6ab46b5f0988041d15b4c8d171
 
       if (!purposeSection) return;
-
-<<<<<<< HEAD
       const triggerPoint =
         purposeSection.offsetTop - 100; // adjust for navbar height
-=======
-        shadow-lg
-        border border-white/20 z-50
-      "
-    >
-      {/* Left: Logo + Brand */}
-      <div className="w-[218px] h-[28px] flex items-center gap-2">
-        <Image
-          src="/logo.png"
-          alt="Buddy’s Burrow Logo"
-          width={28}
-          height={28}
-          className="object-contain"
-          priority
-        />
->>>>>>> 2fbe7984d6a40d6ab46b5f0988041d15b4c8d171
 
       setScrolled(window.scrollY >= triggerPoint);
     };
@@ -89,11 +60,10 @@ export default function Navbar() {
           {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
             <span
               key={item}
-              className={`text-sm font-medium font-poppins cursor-pointer transition-colors ${
-                scrolled
-                  ? "text-black hover:text-gray-600"
-                  : "text-white hover:text-white/80"
-              }`}
+              className={`text-sm font-medium font-poppins cursor-pointer transition-colors ${scrolled
+                ? "text-black hover:text-gray-600"
+                : "text-white hover:text-white/80"
+                }`}
             >
               {item}
             </span>
@@ -130,9 +100,8 @@ export default function Navbar() {
           {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
             <span
               key={item}
-              className={`text-sm font-medium font-poppins ${
-                scrolled ? "text-black" : "text-white"
-              }`}
+              className={`text-sm font-medium font-poppins ${scrolled ? "text-black" : "text-white"
+                }`}
             >
               {item}
             </span>
