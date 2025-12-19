@@ -1,5 +1,3 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/footer"
 import Image from "next/image";
 
 export default function Home() {
@@ -8,7 +6,6 @@ export default function Home() {
 
       {/* ================= HERO SECTION ================= */}
       <section className="relative min-h-screen bg-[url('/bg.jpg')] bg-cover bg-center rounded-2xl">
-        <Navbar />
 
         <div className="max-w-7xl mx-auto px-6 pt-40 lg:pt-56">
           <div className="max-w-[657px] backdrop-blur-md bg-black/40 rounded-xl p-6 sm:p-8">
@@ -390,9 +387,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer/>
-
 
     </main>
   );

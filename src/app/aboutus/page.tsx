@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Footer from "../../components/footer"
-
 export default function AboutPage() {
     return (
         <main className="w-full bg-[#FCFFF7]">
@@ -274,9 +272,6 @@ export default function AboutPage() {
                     </div>
                 </div>
             </section>
-
-            <Footer />
-
 
         </main>
     );

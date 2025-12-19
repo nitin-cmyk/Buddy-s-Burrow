@@ -38,10 +38,10 @@ export default function Navbar() {
       {/* ================= NAVBAR ================= */}
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50
-        w-[calc(100%-32px)] max-w-7xl
+        w-[calc(100%-32px)]
         h-[72px] sm:h-[88px]
         rounded-xl
-        flex items-center
+        flex items-center justify-between
         px-4 sm:px-6
         transition-all duration-300
         ${navBg}`}
@@ -61,37 +61,38 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP MENU */}
-        <div className="hidden md:flex mx-auto items-center gap-8">
-          {NAV_LINKS.map((item) => (
+        <div className="flex justify-between gap-16">
+          <div className="hidden md:flex mx-auto items-center gap-8">
+            {NAV_LINKS.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`text-sm font-medium font-poppins transition-colors ${scrolled
+                    ? "text-black hover:text-gray-600"
+                    : "text-white hover:text-white/80"
+                  }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* DESKTOP ACTIONS */}
+          <div className="hidden md:flex items-center gap-3 ml-auto">
             <Link
-              key={item.label}
-              href={item.href}
-              className={`text-sm font-medium font-poppins transition-colors ${
-                scrolled
-                  ? "text-black hover:text-gray-600"
-                  : "text-white hover:text-white/80"
-              }`}
+              href="/login"
+              className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
             >
-              {item.label}
+              Login
             </Link>
-          ))}
-        </div>
 
-        {/* DESKTOP ACTIONS */}
-        <div className="hidden md:flex items-center gap-3 ml-auto">
-          <Link
-            href="/login"
-            className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
-          >
-            Login
-          </Link>
-
-          <Link
-            href="/#donate"
-            className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
-          >
-            Donate Us
-          </Link>
+            <Link
+              href="/#donate"
+              className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+            >
+              Donate Us
+            </Link>
+          </div>
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -116,9 +117,8 @@ export default function Navbar() {
               key={item.label}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className={`text-sm font-medium font-poppins ${
-                scrolled ? "text-black" : "text-white"
-              }`}
+              className={`text-sm font-medium font-poppins ${scrolled ? "text-black" : "text-white"
+                }`}
             >
               {item.label}
             </Link>
