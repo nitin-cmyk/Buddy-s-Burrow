@@ -2,15 +2,14 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#FCFFF7]">
+    <main className="min-h-screen p-3 overflow-x-hidden bg-[#FCFFF7]">
 
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-screen bg-[url('/bg.jpg')] bg-cover bg-center rounded-2xl">
-
+      <section className="relative min-h-screen bg-[url('/bg.jpg')]  bg-cover bg-center rounded-2xl">
         <div className="max-w-7xl mx-auto px-6 pt-40 lg:pt-56">
-          <div className="max-w-[657px] backdrop-blur-md bg-black/40 rounded-xl p-6 sm:p-8">
+          <div className="max-w-[657px] backdrop-blur-md bg-black/40 rounded-2xl p-6 sm:p-8">
             <h1 className="font-poppins font-medium text-white text-3xl sm:text-4xl md:text-5xl lg:text-[61px] leading-tight lg:leading-[92px]">
-              Nurturing Kids. Healing the Planet. Building the Future
+              Nurturing Kids Healing the Planet Building the Future
             </h1>
 
             <p className="mt-4 text-white/90 text-base sm:text-lg leading-relaxed max-w-xl">

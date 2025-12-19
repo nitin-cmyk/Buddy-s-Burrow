@@ -15,9 +15,9 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[50px] py-14 sm:py-16">
 
         {/* ================= FOOTER CONTENT ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-14">
 
-          {/* NEWSLETTER */}
+          {/* ================= LEFT: NEWSLETTER ================= */}
           <div className="lg:col-span-6">
             {/* BRAND */}
             <div className="flex items-center gap-3 mb-6 sm:mb-8">
@@ -37,13 +37,13 @@ export default function Footer() {
               Join the Burrow!
             </h3>
 
-            <p className="text-[#B8D4B8] text-sm leading-relaxed mb-6 max-w-md">
+            <p className="text-[#B8D4B8] text-sm leading-relaxed mb-6 max-w-lg">
               Sign up to get new lessons, fun activities and event updates
               straight to your email!
             </p>
 
             {/* FORM */}
-            <form className="space-y-4 max-w-md">
+            <form className="space-y-4 max-w-[50vw]">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
@@ -94,47 +94,59 @@ export default function Footer() {
             </form>
           </div>
 
-          {/* NAVIGATION */}
-          <div className="lg:col-span-3">
-            <h3 className="font-poppins font-semibold text-base mb-4">
-              Navigation
-            </h3>
-            <ul className="space-y-3">
-              {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
-                <li key={item}>
-                  <a
-                    href={item === "Courses" ? "#courses" : item === "Events" ? "#events" : "#"}
-                    className="text-[#B8D4B8] text-sm hover:text-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* ================= RIGHT: NAV + LOCATIONS ================= */}
+          <div className="lg:col-span-6 p-5 flex flex-col sm:flex-row justify-end gap-36">
 
-          {/* LOCATIONS */}
-          <div className="lg:col-span-3">
-            <h3 className="font-poppins font-semibold text-base mb-4">
-              Locations
-            </h3>
-            <ul className="space-y-3">
-              <li className="text-[#B8D4B8] text-sm">New York, USA</li>
-              <li className="text-[#B8D4B8] text-sm">Hyderabad, India</li>
-            </ul>
+            {/* NAVIGATION */}
+            <div>
+              <h3 className="font-poppins font-semibold text-base mb-4">
+                Navigation
+              </h3>
+              <ul className="space-y-3">
+                {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
+                  <li key={item}>
+                    <a
+                      href={
+                        item === "Courses"
+                          ? "#courses"
+                          : item === "Events"
+                          ? "#events"
+                          : "#"
+                      }
+                      className="text-[#B8D4B8] text-sm hover:text-white transition-colors"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* LOCATIONS */}
+            <div>
+              <h3 className="font-poppins font-semibold text-base mb-4">
+                Locations
+              </h3>
+              <ul className="space-y-3">
+                <li className="text-[#B8D4B8] text-sm">New York, USA</li>
+                <li className="text-[#B8D4B8] text-sm">Hyderabad, India</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* ================= FOOTER BOTTOM ================= */}
-        <div className="
-          pt-6
-          border-t border-[#2D5F2E]
-          flex
-          flex-col sm:flex-row
-          items-center
-          justify-center sm:justify-end
-          gap-4 sm:gap-6
-        ">
+        <div
+          className="
+            pt-6
+            border-t border-[#2D5F2E]
+            flex
+            flex-col sm:flex-row
+            items-center
+            justify-center sm:justify-end
+            gap-4 sm:gap-6
+          "
+        >
           <span className="font-poppins font-semibold text-sm">
             Join Our Community
           </span>
