@@ -8,8 +8,10 @@ import { Menu, X } from "lucide-react";
 const NAV_LINKS = [
   { label: "About Us", href: "/aboutus" },
   { label: "Courses", href: "/courses" },
-  { label: "Events", href: "/#events" },
-  { label: "News & Blogs", href: "/#NewsNBlogs" },
+
+  { label: "Events", href: "/events" },
+  { label: "News & Recaps", href: "/NewsNRecaps" },
+
 ];
 
 export default function Navbar() {
