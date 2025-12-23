@@ -11,7 +11,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A2B0A] text-white mt-24">
+    <footer className="bg-[#0A2B0A] text-white">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[50px] py-14 sm:py-16">
 
         {/* ================= FOOTER CONTENT ================= */}

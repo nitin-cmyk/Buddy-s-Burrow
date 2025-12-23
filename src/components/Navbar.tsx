@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "About Us", href: "/aboutus" },
-  { label: "Courses", href: "/#courses" },
+  { label: "Courses", href: "/courses" },
   { label: "Events", href: "/#events" },
   { label: "News & Blogs", href: "/#NewsNBlogs" },
 ];
@@ -18,16 +18,14 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      const purposeSection = document.getElementById("purpose");
-      if (!purposeSection) return;
-
-      const triggerPoint = purposeSection.offsetTop - 100;
+      const triggerPoint = window.innerHeight * 0.8;
       setScrolled(window.scrollY >= triggerPoint);
     };
 
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   const navBg = scrolled
     ? "bg-[#FCFFF7] text-black shadow-md border border-gray-200"
@@ -68,8 +66,8 @@ export default function Navbar() {
                 key={item.label}
                 href={item.href}
                 className={`text-sm font-medium font-poppins transition-colors ${scrolled
-                    ? "text-black hover:text-gray-600"
-                    : "text-white hover:text-white/80"
+                  ? "text-black hover:text-gray-600"
+                  : "text-white hover:text-white/80"
                   }`}
               >
                 {item.label}

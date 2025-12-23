@@ -4,7 +4,7 @@ export default function AboutPage() {
         <main className="w-full bg-[#FCFFF7]">
 
             {/* HERO SECTION */}
-            <section className="w-full min-h-[70vh] sm:min-h-[80vh] lg:h-screen p-[12px]">
+            <section className="w-full h-[90vh] sm:h-[85vh] lg:h-screen p-[12px]">
                 <div className="relative w-full h-full rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] overflow-hidden">
 
                     <Image
@@ -13,13 +13,13 @@ export default function AboutPage() {
                         width={1920}
                         height={1080}
                         priority
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-[80%_50%]"
                     />
 
                     {/* Glass text */}
-                    <div className="absolute bottom-[16px] sm:bottom-[24px] lg:bottom-[40px] left-[16px] sm:left-[24px] lg:left-[32px] z-10 max-w-[280px] sm:max-w-[420px] lg:max-w-[520px]">
-                        <div className="bg-black/10 backdrop-blur-md shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
-                            <h2 className="text-white text-[20px] sm:text-[28px] lg:text-[48px] font-medium font-poppins leading-tight">
+                    <div className="absolute bottom-[20px] sm:bottom-[28px] lg:bottom-[40px] left-[16px] sm:left-[24px] lg:left-[32px] z-10 max-w-[300px] sm:max-w-[420px] lg:max-w-[520px]">
+                        <div className="bg-black/20 backdrop-blur-[10px] shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
+                            <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[48px] font-medium font-poppins leading-tight">
                                 Together, We Hold the Power to Change the World
                             </h2>
                         </div>
@@ -27,6 +27,7 @@ export default function AboutPage() {
 
                 </div>
             </section>
+
 
 
             {/* WHO WE ARE SECTION */}
