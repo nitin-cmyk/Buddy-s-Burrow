@@ -103,7 +103,7 @@ export default function Footer() {
                 Navigation
               </h3>
               <ul className="space-y-3">
-                {["About Us", "Courses", "Events", "News & Blogs"].map((item) => (
+                {["About Us", "Courses", "Events", "News & Recaps"].map((item) => (
                   <li key={item}>
                     <a
                       href={

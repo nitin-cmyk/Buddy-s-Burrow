@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: "About Us", href: "/aboutus" },
   { label: "Courses", href: "/courses" },
   { label: "Events", href: "/events" },
-  { label: "News & Blogs", href: "/NewsNBlogs" },
+  { label: "News & Recaps", href: "/NewsNRecaps" },
 ];
 
 export default function Navbar() {
