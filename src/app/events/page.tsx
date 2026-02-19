@@ -36,171 +36,165 @@ export default function EventsPage() {
   return (
     <main className="w-full min-h-screen bg-[#FCFFF7]">
 
-     {/* ================= HERO SECTION ================= */}
-<section className="w-full px-[12px] pt-[12px] sm:p-[12px]">
-  <div
-    className="
-      relative
-      w-full
-      min-h-[70svh]
-      sm:min-h-[80vh]
-      lg:h-screen
-      rounded-[16px]
-      sm:rounded-[20px]
-      lg:rounded-[24px]
-      overflow-hidden
-      bg-black
-    "
-  >
-    {/* Background Image */}
-    <Image
-      src="/events-bg.png"
-      alt="Buddy's Burrow animals"
-      fill
-      priority
-      className="object-cover"
-    />
+      {/* ================= HERO SECTION ================= */}
+      {/* HERO SECTION */}
+      <section className="w-full h-[90vh] sm:h-[85vh] lg:h-screen p-[12px]">
+        <div className="relative w-full h-full rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] overflow-hidden">
 
-    {/* Glass Text Card */}
-    <div className="absolute bottom-[12px] sm:bottom-[24px] lg:bottom-[40px] left-[12px] sm:left-[24px] lg:left-[32px] z-10 max-w-[280px] sm:max-w-[420px] lg:max-w-[520px]">
-      <div className="bg-black/10 backdrop-blur-md shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
-        <h2 className="text-white text-[20px] sm:text-[28px] lg:text-[48px] font-medium font-poppins leading-tight">
-          Together, We Hold the Power to Change the World
-        </h2>
-      </div>
-    </div>
-  </div>
-</section>
+          <Image
+            src="/events-bg.png"
+            alt="Buddy’s Burrow animals"
+            width={1920}
+            height={1080}
+            priority
+            className="w-full h-full object-cover object-[60%_center]"
+          />
 
-
-      {/* ================= WHY OUR EVENTS MATTER SECTION ================= */}
-      <section className="w-full px-4 sm:px-6 lg:px-[74px] mt-12 lg:mt-16">
-        <div className="max-w-[1292px] mx-auto">
-          <div className="text-center space-y-[30px]">
-            <h2 className="font-poppins font-semibold text-2xl sm:text-3xl lg:text-[32px] text-[#00360C]">
-              Why Our Events Matter
-            </h2>
-            <p className="font-poppins font-normal text-sm sm:text-base leading-relaxed text-[#00360C] max-w-[900px] mx-auto">
-              Buddy's Burrow events bring learning to life. Far more than classroom walks or school awareness campaigns and environmental workshops, every event gives students a chance to make a visible impact. These experiences help young learners understand environmental issues, build confidence in their ability to create change, and see the direct results of collective action.
-            </p>
+          {/* Glass text */}
+          <div className="absolute bottom-[20px] sm:bottom-[28px] lg:bottom-[80px] left-[16px] sm:left-[24px] lg:left-[92px] z-10 max-w-[300px] sm:max-w-[420px] lg:max-w-[520px]">
+            <div className="bg-black/20 backdrop-blur-[10px]  shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
+              <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[52px] font-medium font-poppins leading-[62px]">
+                Join Hands, Take Action, Make an Impact.
+              </h2>
+            </div>
           </div>
+
         </div>
       </section>
 
-    
-{/* ================= UPCOMING EVENTS SECTION ================= */}
-<section className="w-full px-4 sm:px-6 lg:px-[82px] mt-24">
-  <div className="max-w-[1276px] mx-auto flex flex-col gap-[36px]">
 
-    {/* ================= EVENT ROW 1 ================= */}
-    <div className="flex flex-col lg:flex-row gap-[36px]">
+      {/* ================= WHY OUR EVENTS MATTER SECTION ================= */}
+      <section className="w-full">
+        <div className="max-w-[1166px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] py-[20px] sm:py-[40px] lg:py-[60px] text-center">
 
-      {/* LEFT: Event Details */}
-      <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
-        <h3 className="font-poppins font-medium text-[20px] sm:text-[24px] lg:text-[31px] leading-[32px] lg:leading-[47px] text-[#00360C]">
-          Event Name or Title – Clean up drive at Hell&apos;s Kitchen
-        </h3>
+          <h3 className="text-[28px] sm:text-[40px] lg:text-[61px] font-poppins text-[#002E0B] font-medium">
+            Why Our Events Matter
+          </h3>
 
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Venue – New York, Hell&apos;s Kitchen, Street No – 24, Manhattan
-        </p>
-
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Date – 13 – Jan – 2026
-        </p>
-
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Time – 10:00 AM to 01:00 PM
-        </p>
-
-        <p className="font-poppins font-normal text-[14px] sm:text-[16px] leading-[22px] lg:leading-[24px] text-[#00360C] mt-2">
-          Help restore a public space and learn how waste impacts local ecosystems.
-        </p>
-      </div>
-
-      {/* RIGHT: Date Card (Glass) */}
-      <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
-
-        {/* Glass layers */}
-        <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
-        <div className="absolute inset-0 bg-white/5" />
-
-        {/* Content */}
-        <div className="relative z-10 w-full text-center">
-          <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
-            January 2026
+          <p className="mt-[20px] text-left text-[16px] sm:text-[18px] lg:text-[25px] font-poppins font-medium text-[#00360C]">
+            Buddy’s Burrow events bring learning into the real world. From clean-up drives and nature walks to school awareness campaigns and environmental workshops, every event gives students a chance to make a visible impact. These experiences help young learners understand environmental problems, work together, and build a habit of caring for the planet — not just in theory, but in action.
           </p>
-          <div className="w-full h-[1px] bg-[#CFE2A7]" />
+
         </div>
+      </section>
 
-        <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
-          13
-        </p>
 
-        <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
-          Tuesday
-        </p>
-      </div>
-    </div>
+      {/* ================= UPCOMING EVENTS SECTION ================= */}
+      <section className="w-full px-4 sm:px-6 lg:px-[82px] mt-10">
+        <div className="max-w-[1276px] mx-auto flex flex-col gap-[36px]">
+          <h3 className="text-[28px] sm:text-[40px] text-center lg:text-[61px] font-poppins text-[#002E0B] font-medium">
+            Upcoming Events
+          </h3>
 
-    {/* 🔹 MOBILE DIVIDER BETWEEN EVENTS */}
-    <div className="lg:hidden w-full flex items-center justify-center">
-      <div className="w-full h-[1px] bg-[#CFE2A7]" />
-    </div>
+          {/* ================= EVENT ROW 1 ================= */}
+          <div className="flex flex-col lg:flex-row gap-[36px]">
 
-    {/* ================= EVENT ROW 2 (SWAPPED) ================= */}
-    <div className="flex flex-col lg:flex-row gap-[36px]">
+            {/* LEFT: Event Details */}
+            <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
+              <h3 className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] leading-[32px] lg:leading-[47px] text-[#00360C] ">
+                <span className="text-[31px]">Clean Up Drive</span>  – Clean up drive at Hell&apos;s Kitchen, New York street no 72-84
+              </h3>
 
-      {/* LEFT: Date Card */}
-      <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                <span className="text-[31px]">Venue</span> – New York, Hell&apos;s Kitchen, Street No – 24, Manhattan
+              </p>
 
-        <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
-        <div className="absolute inset-0 bg-white/5" />
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                Date – 13 – Jan – 2026
+              </p>
 
-        <div className="relative z-10 w-full text-center">
-          <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
-            February 2026
-          </p>
-          <div className="w-full h-[1px] bg-[#CFE2A7]" />
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                Time – 10:00 AM to 01:00 PM
+              </p>
+
+              <p className="font-poppins font-normal text-[14px] sm:text-[16px] leading-[22px] lg:leading-[24px] italic text-[#00360C] mt-2">
+                Help restore a public space and learn how waste impacts local ecosystems.
+              </p>
+            </div>
+
+            {/* RIGHT: Date Card (Glass) */}
+            <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
+
+              {/* Glass layers */}
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
+              <div className="absolute inset-0 bg-white/5" />
+
+              {/* Content */}
+              <div className="relative z-10 w-full text-center">
+                <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
+                  January 2026
+                </p>
+                <div className="w-full h-[1px] bg-[#CFE2A7]" />
+              </div>
+
+              <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
+                13
+              </p>
+
+              <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
+                Tuesday
+              </p>
+            </div>
+          </div>
+
+          {/* 🔹 MOBILE DIVIDER BETWEEN EVENTS */}
+          <div className="lg:hidden w-full flex items-center justify-center">
+            <div className="w-full h-[1px] bg-[#CFE2A7]" />
+          </div>
+
+          {/* ================= EVENT ROW 2 (SWAPPED) ================= */}
+          <div className="flex flex-col lg:flex-row gap-[36px]">
+
+            {/* LEFT: Date Card */}
+            <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
+
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
+              <div className="absolute inset-0 bg-white/5" />
+
+              <div className="relative z-10 w-full text-center">
+                <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
+                  February 2026
+                </p>
+                <div className="w-full h-[1px] bg-[#CFE2A7]" />
+              </div>
+
+              <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
+                20
+              </p>
+
+              <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
+                Thursday
+              </p>
+            </div>
+
+            {/* RIGHT: Event Details */}
+            <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
+              <h3 className="font-poppins font-medium text-[20px] sm:text-[24px] lg:text-[31px] leading-[32px] lg:leading-[47px] text-[#00360C]">
+                Event Name or Title – Nature Walk at Central Park
+              </h3>
+
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                Venue – New York, Central Park, North Meadow
+              </p>
+
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                Date – 20 – Feb – 2026
+              </p>
+
+              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
+                Time – 09:00 AM to 12:00 PM
+              </p>
+
+              <p className="font-poppins font-normal text-[14px] leading-[22px] lg:leading-[24px] italic text-[#00360C] mt-2">
+                Explore local ecosystems and learn about native plants and wildlife.
+              </p>
+            </div>
+          </div>
+
         </div>
-
-        <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
-          20
-        </p>
-
-        <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
-          Thursday
-        </p>
-      </div>
-
-      {/* RIGHT: Event Details */}
-      <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
-        <h3 className="font-poppins font-medium text-[20px] sm:text-[24px] lg:text-[31px] leading-[32px] lg:leading-[47px] text-[#00360C]">
-          Event Name or Title – Nature Walk at Central Park
-        </h3>
-
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Venue – New York, Central Park, North Meadow
-        </p>
-
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Date – 20 – Feb – 2026
-        </p>
-
-        <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-          Time – 09:00 AM to 12:00 PM
-        </p>
-
-        <p className="font-poppins font-normal text-[14px] sm:text-[16px] leading-[22px] lg:leading-[24px] text-[#00360C] mt-2">
-          Explore local ecosystems and learn about native plants and wildlife.
-        </p>
-      </div>
-    </div>
-
-  </div>
-</section>
+      </section>
 
       {/* ================= WHAT WE DO SECTION ================= */}
       <section className="w-full bg-[#005715] px-4 sm:px-6 lg:px-[82px] py-12 lg:py-16 mt-16 lg:mt-20">
@@ -232,36 +226,36 @@ export default function EventsPage() {
                       ${selectedActivity === index ? 'bg-white/20 backdrop-blur-xl' : 'bg-white/10 backdrop-blur-md'}
                     `}
                     style={{
-                      boxShadow: selectedActivity === index 
+                      boxShadow: selectedActivity === index
                         ? 'inset 0 0 20px rgba(255,255,255,0.5), 0 8px 32px rgba(0,0,0,0.1)'
                         : 'inset 0 0 10px rgba(255,255,255,0.2), 0 4px 16px rgba(0,0,0,0.05)'
                     }}
                   >
                     {/* Glass refraction effect */}
-                    <div 
+                    <div
                       className={`
                         absolute inset-0 transition-all duration-500
-                        ${selectedActivity === index 
+                        ${selectedActivity === index
                           ? 'bg-gradient-to-br from-white/40 via-transparent to-transparent'
                           : 'bg-gradient-to-tl from-white/20 via-transparent to-transparent group-hover:from-white/30'
                         }
                       `}
                       style={{
-                        transform: selectedActivity === index 
+                        transform: selectedActivity === index
                           ? 'rotate(45deg) scale(1.5)'
                           : 'rotate(-45deg) scale(1.5)',
                         filter: 'blur(20px)',
                       }}
                     />
-                    
+
                     {/* Frost overlay */}
-                    <div 
+                    <div
                       className="absolute inset-0 bg-white/5"
                       style={{
                         backdropFilter: 'blur(50px)',
                       }}
                     />
-                    
+
                     {/* Icon Image */}
                     <Image
                       src={activity.iconImage}
@@ -273,7 +267,7 @@ export default function EventsPage() {
                         ${selectedActivity === index ? 'scale-110' : 'scale-100 group-hover:scale-105'}
                       `}
                       style={{
-                        filter: selectedActivity === index 
+                        filter: selectedActivity === index
                           ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
                           : 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
                       }}
@@ -336,14 +330,14 @@ export default function EventsPage() {
                   }}
                 >
                   {/* Glass effect */}
-                  <div 
+                  <div
                     className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent"
                     style={{
                       transform: 'rotate(45deg) scale(1.5)',
                       filter: 'blur(15px)',
                     }}
                   />
-                  
+
                   <Image
                     src={activities[selectedActivity].iconImage}
                     alt={activities[selectedActivity].title}

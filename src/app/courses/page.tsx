@@ -127,69 +127,112 @@ export default function CoursesPage() {
                             </h3>
 
                             {/* ICON GRID */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px] sm:gap-[28px] lg:gap-[40px]">
+                            <div className="flex flex-col justify-center items-center gap-[28px] sm:gap-[36px] lg:gap-[40px]">
 
-                                {/* ITEM 1 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/search-icon.svg" alt="Choose course" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 1 */}
+                                <div className="flex flex-col lg:flex-row items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/search-icon.svg" alt="Choose course" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        1. Choose Your Course
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            1. Choose Your Course
+                                        </p>
+                                        <p className="text-[12px] sm:text-[14px] lg:text-[16px] text-white font-poppins">
+                                            Select a course that matches your interests and learning goals.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                {/* ITEM 2 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/video-icon.svg" alt="Start course" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 2 */}
+                                <div className="flex flex-col lg:flex-row-reverse items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/video-icon.svg" alt="Start course" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        2. Start the Course
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            2. Start the Course
+                                        </p>
+                                        <p className="text-[12px] sm:text-[14px] lg:text-[16px] text-white font-poppins">
+                                            Begin your learning journey with guided lessons and videos.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                {/* ITEM 3 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/book-icon.svg" alt="Learn concepts" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 3 */}
+                                <div className="flex flex-col lg:flex-row items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/book-icon.svg" alt="Learn concepts" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        3. Learn the Concepts
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            3. Learn the Concepts
+                                        </p>
+                                        <p className="text-[12px] sm:text-[14px] lg:text-[16px] text-white font-poppins">
+                                            Understand key ideas through clear explanations and examples.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                {/* ITEM 4 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/para-icon.svg" alt="Read" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 4 */}
+                                <div className="flex flex-col lg:flex-row-reverse items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/para-icon.svg" alt="Read" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        4. Read and Understand
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            4. Read and Understand
+                                        </p>
+                                        <p className="text-[12px] sm:text-[14px] lg:text-[16px] text-white font-poppins">
+                                            Read supporting material to strengthen understanding.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                {/* ITEM 5 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/assessment-icon.svg" alt="Assessment" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 5 */}
+                                <div className="flex flex-col lg:flex-row items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/assessment-icon.svg" alt="Assessment" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        5. Assessment & Activity
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            5. Assessment & Activity
+                                        </p>
+                                        <p className="text-[12px] sm:text-[14px] lg:text-[16px] text-white font-poppins">
+                                            Test knowledge with activities and assessments.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                {/* ITEM 6 */}
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl transition-all duration-500 ease-out hover:bg-gradient-to-tl before:content-[''] before:absolute before:inset-0 before:rounded-[16px] sm:before:rounded-[18px] lg:before:rounded-[20px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none mb-[10px] sm:mb-[12px]">
-                                        <Image src="/certification-icon.svg" alt="Certificate" width={28} height={28} className="sm:w-[36px] sm:h-[36px] lg:w-[44px] lg:h-[44px]" />
+                                {/* STEP 6 */}
+                                <div className="flex flex-col lg:flex-row-reverse items-center gap-[20px] lg:gap-[80px]">
+                                    <div className="relative w-[64px] h-[64px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-[16px] flex items-center justify-center bg-black/5 backdrop-blur-[10px] shadow-xl hover:shadow-xl/30 transition-all duration-500 ease-out before:content-[''] before:absolute before:inset-0 before:rounded-[16px] before:shadow-[inset_0_1px_2px_rgba(255,255,255,0.25)] before:pointer-events-none">
+                                        <Image src="/certification-icon.svg" alt="Certificate" width={72} height={72}
+                                            className="sm:w-[36px] sm:h-[36px] lg:w-[72px] lg:h-[72px]" />
                                     </div>
-                                    <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins leading-[1.4]">
-                                        6. Earn Your Certificate
-                                    </p>
+
+                                    <div className="flex flex-col text-left gap-[12px] max-w-[520px]">
+                                        <p className="text-[14px] sm:text-[16px] lg:text-[20px] font-medium text-white font-poppins">
+                                            6. Earn Your Certificate
+                                        </p>
+                                        <p className="text-[12px] s ext-[14px] lg:text-[16px] text-white font-poppins">
+                                            Complete the course and earn your certificate.
+                                        </p>
+                                    </div>
                                 </div>
 
                             </div>
+
                         </div>
                     </div>
                 </div>

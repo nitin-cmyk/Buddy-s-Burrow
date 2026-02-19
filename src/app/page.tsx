@@ -1,309 +1,319 @@
 import Image from "next/image";
 
 export default function Home() {
+  const WeCombineBorder = () => (
+    <svg
+      viewBox="0 0 620 560"
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      {/* INSIDE STROKE MASK */}
+      <mask id="we-combine-mask" fill="white">
+        <path d="M608 0C614.627 0 620 5.37258 620 12V488C620 492.418 616.418 496 612 496H428C421.373 496 416 501.373 416 508V552C416 556.418 412.418 560 408 560H12C5.37258 560 0 554.627 0 548V84C0 79.5817 3.58172 76 8 76H68C72.4183 76 76 72.4183 76 68V8C76 3.58172 79.5817 0 84 0H608Z" />
+      </mask>
+
+      {/* BORDER (STROKE ONLY) */}
+      <path
+        d="M608 0C614.627 0 620 5.37258 620 12V488C620 492.418 616.418 496 612 496H428C421.373 496 416 501.373 416 508V552C416 556.418 412.418 560 408 560H12C5.37258 560 0 554.627 0 548V84C0 79.5817 3.58172 76 8 76H68C72.4183 76 76 72.4183 76 68V8C76 3.58172 79.5817 0 84 0H608Z"
+        fill="none"
+        stroke="#90B73B"
+        strokeWidth="2"
+        mask="url(#we-combine-mask)"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
   return (
-    <main className="min-h-screen p-3 overflow-x-hidden bg-[#FCFFF7]">
+    <main className="min-h-screen overflow-x-hidden bg-[#FCFFF7]">
 
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-screen bg-[url('/bg.jpg')]  bg-cover bg-center rounded-2xl">
-        <div className="max-w-7xl mx-auto px-6 pt-40 lg:pt-56">
-          <div className="max-w-[657px] backdrop-blur-md bg-black/40 rounded-2xl p-6 sm:p-8">
-            <h1 className="font-poppins font-medium text-white text-3xl sm:text-4xl md:text-5xl lg:text-[61px] leading-tight lg:leading-[92px]">
-              Nurturing Kids Healing the Planet Building the Future
-            </h1>
+      {/* HERO SECTION */}
+      <section className="w-full h-[90vh] sm:h-[85vh] lg:h-screen p-[12px]">
+        <div className="relative w-full h-full rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] overflow-hidden">
 
-            <p className="mt-4 text-white/90 text-base sm:text-lg leading-relaxed max-w-xl">
-              Learn about biomes, wildlife, ecosystems, and climate through simple,
-              engaging lessons made for young learners.
-            </p>
-          </div>
-        </div>
-      </section>
+          <Image
+            src="/home-bg.png"
+            alt="Buddy’s Burrow animals"
+            width={1920}
+            height={1080}
+            priority
+            className="w-full h-full object-cover"
+          />
 
-     {/* ================= PURPOSE SECTION ================= */}
-<section id="purpose" className="mt-24">
-  <div className="max-w-[1166px] mx-auto px-4 flex flex-col gap-[30px] text-center">
-    
-    {/* Heading */}
-    <h2 className="font-poppins font-medium text-[36px] sm:text-[48px] lg:text-[61px] leading-[92px] text-[#002E0B]">
-      Our Purpose
-    </h2>
-
-    {/* Description */}
-    <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] leading-[38px] text-[#00360C]">
-      We’re here to inspire young changemakers. Buddy’s Burrow creates a safe and fun space where students discover nature, understand the planet, and learn how their actions can help protect it. Every lesson, event, and activity is designed to empower a greener future.
-    </p>
-
-  </div>
-</section>
-
-
-     {/* ================= ABOUT + IMAGE SECTION ================= */}
-<section className="mt-16 sm:mt-20 lg:mt-24">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <div className="rounded-2xl border border-gray-200 p-4 sm:p-6 lg:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
-
-      {/* LEFT CONTENT */}
-      <div className="flex-1 rounded-2xl border border-gray-200 p-5 sm:p-8 lg:p-20">
-        <h3 className="font-poppins font-medium text-xl sm:text-2xl lg:text-3xl">
-          About Us
-        </h3>
-
-        <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
-          Buddy’s Burrow is an environmental learning platform designed to help
-          students understand nature in a clear, practical way. Through simple
-          explanations, real-world examples, and hands-on activities, we teach
-          how ecosystems work, why wildlife matters, and how small actions can
-          protect the planet.
-        </p>
-
-        <button className="mt-5 sm:mt-6 px-5 sm:px-6 py-2.5 sm:py-3 rounded-md bg-[#005715] text-white font-medium text-sm sm:text-base">
-          View more
-        </button>
-      </div>
-
-      {/* RIGHT IMAGE */}
-      <div className="relative w-full lg:w-[620px] h-[220px] sm:h-[320px] lg:h-[560px] rounded-xl overflow-hidden flex-shrink-0">
-        <Image
-          src="/about.jpg"
-          alt="About Buddy’s Burrow"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-
-      {/* ================= COURSES SECTION ================= */}
-      <section
-        id="courses"
-        className="
-    mt-24
-    w-full
-     bg-[#005715]
-    px-6
-    lg:px-[50px]
-    py-[30px]
-    flex
-    justify-center
-  "
-      >
-        <div
-          className="
-      w-full
-      max-w-[1340px]
-      border
-      border-[#CFE2A7]
-      rounded-[24px]
-      p-6
-      sm:p-8
-      flex
-      flex-col
-      lg:flex-row
-      gap-9
-      items-center
-    "
-        >
-          {/* LEFT IMAGE */}
-          <div
-            className="
-        relative
-        w-full
-        lg:w-[620px]
-        h-[260px]
-        sm:h-[360px]
-        lg:h-[560px]
-        rounded-xl
-        overflow-hidden
-        flex-shrink-0
-      "
-          >
-            <Image
-              src="/courses.jpg"   // put image in /public
-              alt="Courses"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-
-          {/* RIGHT CONTENT */}
-          <div
-            className="
-        w-full
-        lg:w-[620px]
-        flex
-        flex-col
-        justify-center
-      "
-          >
-            <h2
-              className="
-          font-poppins
-          font-medium
-          text-white
-          text-4xl
-          sm:text-5xl
-          lg:text-[82px]
-          leading-tight
-          lg:leading-[92px]
-        "
-            >
-              Courses
-            </h2>
-
-            <p
-              className="
-          mt-6
-          text-white/90
-          text-base
-          sm:text-lg
-          leading-relaxed
-        "
-            >
-              Explore engaging, age-appropriate courses designed to teach kids about
-              ecosystems, wildlife, climate, and sustainability through interactive
-              lessons and activities.
-            </p>
-
-            <button
-              className="
-          mt-8
-          w-fit
-          px-8
-          py-3
-          rounded-md
-          bg-white
-          text-[#005715]
-          font-medium
-          font-poppins
-        "
-            >
-              View Courses
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="events" className="mt-24">
-        {/* OUTER WRAPPER */}
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-[50px] py-8">
-          {/* CARD */}
-          <div
-            className="
-        max-w-[1340px]
-        mx-auto
-        rounded-2xl
-        border border-[#CFE2A7]
-        p-6
-        sm:p-8
-        flex
-        flex-col
-        lg:flex-row
-        gap-9
-        justify-between
-      "
-          >
-            {/* LEFT CONTENT */}
-            <div
-              className="
-          w-full
-          lg:w-[620px]
-          h-auto
-          lg:h-[560px]
-          bg-[#FCFFF7]
-          rounded-xl
-          p-6
-          sm:p-8
-          flex
-          flex-col
-          justify-center
-        "
-            >
-              <h2
-                className="
-            font-poppins
-            font-medium
-            text-4xl
-            sm:text-5xl
-            lg:text-[82px]
-            leading-tight
-            lg:leading-[92px]
-            text-[#005715]
-          "
-              >
-                Events
+          {/* Glass text */}
+          <div className="absolute bottom-[20px] sm:bottom-[28px] lg:bottom-[80px] left-[16px] sm:left-[24px] lg:left-[92px] z-10 max-w-[300px] sm:max-w-[420px] lg:max-w-[520px]">
+            <div className="bg-black/20 backdrop-blur-[10px]  shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
+              <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[52px] font-medium font-poppins leading-[62px]">
+                Where Curious Minds Discover Nature
               </h2>
-
-              <p
-                className="
-            mt-6
-            font-poppins
-            font-normal
-            text-base
-            leading-6
-            text-[#00360C]
-          "
-              >
-                Buddy’s Burrow events are built to connect learning with real-life
-                experiences. Students can participate in clean-up drives, nature walks,
-                environmental workshops, school outreach activities, and community
-                awareness programs that make learning hands-on and memorable.
-                <br /><br />
-                These events help young people see the impact of their actions,
-                understand local environmental challenges, and engage directly with
-                nature. Every event is designed to be safe, meaningful, and inspiring,
-                allowing students to take what they learn and apply it in the real
-                world.
+              <p className="text-white text-[18px] pt-2">
+                Learn about biomes, wildlife, ecosystems, and climate through simple, engaging lessons made for young learners.
               </p>
             </div>
+          </div>
 
-            {/* RIGHT IMAGE */}
-            <div
-              className="
-              relative
-          w-full
-          lg:w-[620px]
-          h-[260px]
-          sm:h-[360px]
-          lg:h-[560px]
-          rounded-xl
-          overflow-hidden
-          bg-gray-200
-        "
-            >
-              {/* Image goes here */}
-              <Image
-                src="/events.jpg"
-                alt="Buddy’s Burrow Events"
-                fill
-                className="object-cover"
-                priority
-              />
+        </div>
+      </section>
+
+      {/* ================= PURPOSE SECTION ================= */}
+      <section className="w-full">
+        <div className="max-w-[1166px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] py-[20px] sm:py-[40px] lg:py-[60px] text-center">
+
+          <h3 className="text-[28px] sm:text-[40px] lg:text-[61px] font-poppins text-[#002E0B] font-medium">
+            Our Purpose
+          </h3>
+
+          <p className="mt-[20px] text-left text-[16px] sm:text-[18px] lg:text-[25px] font-poppins font-medium text-[#00360C]">
+            We’re here to inspire young changemakers. Buddy’s Burrow creates a safe and fun space where students discover nature, understand the planet, and learn how their actions can help protect it. Every lesson, event, and activity is designed to empower a greener future.
+          </p>
+
+        </div>
+      </section>
+
+
+      {/* ================= ABOUT + IMAGE SECTION ================= */}
+      <section className="w-full">
+        <div className="max-w-[1280px] 2xl:max-w-[1340px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] py-[20px] sm:py-[40px] lg:py-[60px]">
+
+          {/* Outer Card */}
+          <div className="border border-[#CFE2A7] rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] mx-auto max-w-[1180px]">
+
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] lg:gap-[40px] items-start md:items-stretch p-[16px] sm:p-[24px] lg:p-[40px]">
+
+
+
+              <div className="relative w-full md:h-full rounded-[12px] overflow-hidden">
+
+
+
+                {/* SVG BORDER */}
+                <WeCombineBorder />
+
+                {/* ICON — TOP CLIP SPACE */}
+                <div
+                  className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px "
+                >
+                  <Image
+                    src="/wecombineicon.png"
+                    alt="We Combine icon"
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+
+                {/* CONTENT */}
+                <div className="relative z-10 flex flex-col h-full px-[24px] sm:px-[32px] lg:px-[40px] pt-[56px] pb-[56px]">
+                  <h3
+                    className="text-[36px] sm:text-[48px] lg:text-[52px] 2xl:text-[72px] font-poppins font-medium text-[#00360C] mt-[32px]"
+                  >
+                    About Us
+                  </h3>
+
+                  <p className="mt-6 text-[#00360C] text-[14px] sm:text-[15px] lg:text-[16px] 2xl:text-[18px] leading-[1.8] max-w-[720px] mb-[64px]">
+                    Buddy’s Burrow is an environmental learning platform designed to help students understand nature in a clear, practical way. Through simple explanations, real - world examples, and hands-on activities, we teach young people how ecosystems work, why wildlife matters, and how small actions can help protect the planet. Our mission is to build a generation that understands the environment - and feels empowered to care for it.
+                  </p>
+
+                </div>
+
+                {/* BUTTON — BOTTOM RIGHT CLIP SPACE */}
+                <div
+                  className=" absolute bottom-[1px] right-[1px]"
+                >
+                  <button
+                    className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] border-[#005715] text-[#005715] font-semibold text-[15px] transition"
+                  >
+                    View more
+                    <span
+                      className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
+                    >
+                      ↗
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* LEFT IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[280px] md:h-full rounded-[12px] overflow-hidden">
+                <Image
+                  src="/about.jpg"
+                  alt="About us"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+
             </div>
           </div>
         </div>
       </section>
-     <section id="donate" className="w-full px-4 sm:px-6 lg:px-[50px] mt-16 lg:mt-20">
-  <div className="max-w-[1340px] mx-auto border border-[#CFE2A7] rounded-[24px] bg-[#FCFFF7] p-8">
-    <div className="max-w-[1276px] mx-auto border border-[#CFE2A7] rounded-[16px] p-8 flex flex-col gap-[36px]">
-      <div className="max-w-[1184px] mx-auto flex flex-col gap-[40px] text-center">
-        <h2 className="font-poppins font-medium text-[42px] sm:text-[56px] lg:text-[82px] leading-[64.07px] text-[#00360C]">
-          Donate
-        </h2>
-        <p className="font-poppins font-normal text-[16px] leading-[24px] text-[#00360C] max-w-[900px] mx-auto">
-          Your support enables us to offer accessible environmental education, develop interactive learning experiences, and organize community-based programs that nurture awareness, responsibility, and eco-friendly action among young learners. Every contribution strengthens our mission to build a greener, more informed future.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
 
+      <section className="w-full bg-[#005715]">
+        <div className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] py-[20px] sm:py-[40px] lg:py-[60px]">
+
+          {/* Outer Card */}
+          <div className="border border-[#CFE2A7] rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] mx-[0] sm:mx-[24px] lg:mx-[50px]">
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] sm:gap-[24px] lg:gap-[32px] items-center m-[16px] sm:m-[24px] lg:m-[32px]">
+
+              {/* LEFT IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[300px] lg:h-full rounded-[12px] sm:rounded-[12px] overflow-hidden
+              ">
+                <Image
+                  src="/about2.jpg"
+                  alt="Our mission"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="relative p-[32px] sm:p-[40px] lg:p-[56px]">
+                {/* SVG BORDER */}
+                <WeCombineBorder />
+
+                {/* ICON — TOP CLIP SPACE */}
+                <div
+                  className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px]"
+                >
+                  <Image
+                    src="/wecombineicon.png"
+                    alt="We Combine icon"
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+
+                {/* CONTENT */}
+                <h3
+                  className="text-[36px] sm:text-[48px] lg:text-[64px] font-poppins font-medium text-white mt-[32px]"
+                >
+                  Courses
+                </h3>
+
+                <p className="mt-6 text-[#00360C] leading-[1.7] text-white max-w-[720px] mb-[64px] text-[16px]">
+                  Our courses break down environmental science into clear, engaging lessons for teens. Whether it’s understanding biomes, studying wildlife, learning about climate change, or exploring how ecosystems interact, each course lets students learn at their own pace. Assignments, activities, and certificate pathways reinforce learning, giving them knowledge and a sense of accomplishment while sparking curiosity and building lasting environmental awareness.
+                </p>
+
+                {/* BUTTON — BOTTOM RIGHT CLIP SPACE */}
+                <div
+                  className=" absolute bottom-[1px] right-[1px]"
+                >
+                  <button
+                    className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] bg-white border-[#005715] text-[#005715] font-semibold text-[15px] transition"
+                  >
+                    View courses
+                    <span
+                      className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
+                    >
+                      ↗
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full">
+        <div className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] pt-15">
+
+          {/* Outer Card */}
+          <div className="border border-[#CFE2A7] rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] mx-[0] sm:mx-[24px] lg:mx-[50px]">
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] sm:gap-[24px] lg:gap-[32px] items-center m-[16px] sm:m-[24px] lg:m-[32px]">
+
+
+              <div className="relative p-[32px] sm:p-[40px] lg:p-[56px]">
+                {/* SVG BORDER */}
+                <WeCombineBorder />
+
+                {/* ICON — TOP CLIP SPACE */}
+                <div
+                  className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px "
+                >
+                  <Image
+                    src="/wecombineicon.png"
+                    alt="We Combine icon"
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+
+                {/* CONTENT */}
+                <h3
+                  className="text-[36px] sm:text-[48px] lg:text-[64px] font-poppins font-medium text-[#00360C] mt-[32px]"
+                >
+                  EVENTS
+                </h3>
+
+                <p className="mt-6 text-[#00360C] leading-[1.7] max-w-[720px] mb-[64px]">
+                  Buddy’s Burrow events are built to connect learning with real-life experiences. Students can participate in clean-up drives, nature walks, environmental workshops, school outreach activities, and community awareness programs that make learning hands-on and memorable. These events help young people see the impact of their actions, understand local environmental challenges, and engage directly with nature. Every event is designed to be safe, meaningful, and inspiring, allowing students to take what they learn and apply it in the real world.
+                </p>
+
+                {/* BUTTON — BOTTOM RIGHT CLIP SPACE */}
+                <div
+                  className=" absolute bottom-[1px] right-[1px]"
+                >
+                  <button
+                    className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] border-[#005715] text-[#005715] font-semibold text-[15px] transition"
+                  >
+                    View courses
+                    <span
+                      className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
+                    >
+                      ↗
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Right IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[300px] lg:h-full rounded-[12px] sm:rounded-[12px] overflow-hidden
+              ">
+                <Image
+                  src="/events.jpg"
+                  alt="Our mission"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section className="w-full mb-15">
+        <div className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] pt-15">
+          <div className="border border-[#CFE2A7] rounded-[16px] sm:rounded-[20px] lg:rounded-[24px] mx-[0] sm:mx-[24px] lg:mx-[50px] p-[32px]">
+
+            {/* INNER BORDER */}
+            <div className="border border-[#CFE2A7] rounded-[16px] p-8 flex flex-col">
+              <div className="max-w-[1184px] mx-auto flex flex-col gap-[40px] text-center">
+                <h2 className="font-poppins font-medium text-[42px] sm:text-[56px] lg:text-[82px] leading-[64.07px] text-[#00360C]">
+                  Donate
+                </h2>
+                <p className="font-poppins font-normal text-[16px] leading-[24px] text-left text-[#00360C] max-w-[900px] mx-auto">
+                  Your support enables us to offer accessible environmental education, develop interactive learning experiences, and organize community-based programs that nurture awareness, responsibility, and eco-friendly action among young learners. Every contribution strengthens our mission to build a greener, more informed future.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
     </main>
   );
