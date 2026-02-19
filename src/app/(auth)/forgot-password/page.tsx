@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 
 export default function ForgotPasswordPage() {
@@ -16,8 +16,8 @@ export default function ForgotPasswordPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const params = useSearchParams();
-    const expired = params.get("expired");
+    // const params = useSearchParams();
+    // const expired = params.get("expired");
 
 
     // ---------- EMAIL VALID ----------
@@ -126,7 +126,7 @@ export default function ForgotPasswordPage() {
                                 />
                             </div>
 
-                            {/* ERROR */}
+                            {/* ERROR
                             <div className="h-[22px] mb-[16px]">
                                 {expired && (
                                     <p className="text-[#FF5A3C] text-[13px]">
@@ -139,7 +139,7 @@ export default function ForgotPasswordPage() {
                                         {error}
                                     </p>
                                 )}
-                            </div>
+                            </div> */}
 
 
                             {/* BUTTON */}
