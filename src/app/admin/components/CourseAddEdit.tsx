@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Upload, Pencil, Plus, ArrowUp } from "lucide-react";
+import { Upload, Pencil, Plus, ArrowUp, ArrowDown, Trash2, FileEdit } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
@@ -117,7 +117,6 @@ export default function CourseEditor({
     const handlePublish = async () => {
         if (!isValid || mode !== "edit") return;
 
-        // ✅ check modules BEFORE publishing
         if (status === "draft" && modulesList.length === 0) {
             alert("Please add at least one module before publishing.");
             return;
@@ -140,28 +139,23 @@ export default function CourseEditor({
                     title,
                     brief,
                     cover_image_url: coverUrl,
-                    status: "published",
+                    status: newStatus,
                     was_published: true,
                     updated_at: new Date().toISOString(),
                 })
-
                 .eq("id", courseId);
 
             if (error) throw error;
 
             setStatus(newStatus);
 
-
-
-            // ✅ redirect AFTER successful publish
             if (newStatus === "published") {
                 router.push("/admin/courses");
             }
 
-
         } catch (err) {
             console.error("Publish error:", err);
-            alert("Failed to publish");
+            alert("Failed to update course status");
         } finally {
             setLoading(false);
         }
@@ -279,6 +273,68 @@ export default function CourseEditor({
         fetchModules();
     }, [mode, courseId]);
 
+    function getStoragePathFromUrl(url: string | null) {
+        if (!url) return null;
+
+        try {
+            const parts = url.split("/course-assets/");
+            return parts[1] || null;
+        } catch {
+            return null;
+        }
+    }
+
+
+    const handleDeleteModule = async (moduleId: string) => {
+
+        if (!moduleId) return;
+
+        const confirmDelete = confirm(
+            "Are you sure you want to delete this module?\n\nThis action cannot be undone."
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            setLoading(true);
+
+            // 🧹 fetch topic images
+            const { data: topicsData } = await supabase
+                .from("topics")
+                .select("thumbnail_url")
+                .eq("module_id", moduleId);
+
+            if (topicsData?.length) {
+
+                const paths = topicsData
+                    .map(t => getStoragePathFromUrl(t.thumbnail_url))
+                    .filter(Boolean) as string[];
+
+                if (paths.length) {
+                    await supabase.storage
+                        .from("course-assets")
+                        .remove(paths);
+                }
+            }
+
+            // 🗑 delete module
+            const { error } = await supabase
+                .from("modules")
+                .delete()
+                .eq("id", moduleId);
+
+            if (error) throw error;
+
+            // ✅ remove module from UI instantly
+            setModulesList(prev => prev.filter(m => m.id !== moduleId));
+
+        } catch (err: any) {
+            console.error(err);
+            alert(err?.message || "Failed to delete module");
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
 
@@ -375,27 +431,35 @@ export default function CourseEditor({
                         Add/Edit Modules
                     </h2>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+                    <div className="flex flex-col gap-9">
 
                         {modulesList.map((m, i) => (
-                            <div key={i} className="bg-white rounded-xl p-2 shadow-sm">
+                            <div
+                                key={m.id}
+                                className="flex items-center justify-between border border-[#90B73B] rounded-[12px] px-6 py-3 hover:bg-[#F7FAF0] transition"
+                            >
+                                {/* LEFT SIDE - ONLY NUMBER */}
+                                <p className="text-[#33470B] text-[18px] sm:text-[22px] font-medium">
+                                    {i + 1}. Module {i + 1}
+                                </p>
 
-                                <div className="relative h-[140px] w-full rounded-lg overflow-hidden">
-                                    <Image src="/coursesimg.jpg" alt="" fill className="object-cover" />
-                                </div>
+                                {/* RIGHT SIDE - ACTIONS */}
+                                <div className="flex items-center gap-4">
 
-                                <div className="flex flex-col gap-2 mt-3">
+                                    {/* DELETE */}
+                                    <button
+                                        onClick={() => handleDeleteModule(m.id)}
+                                        className="bg-white border border-red-500 text-red-500 p-2 rounded-[8px] hover:bg-red-50 transition"
+                                    >
+                                        <Trash2 size={22} />
+                                    </button>
 
-                                    <p className="text-[14px] text-[#33470B] line-clamp-1">
-                                        {m.title || "Module Title"}
-                                    </p>
-
+                                    {/* EDIT */}
                                     <Link
                                         href={`/admin/courses/${courseId}/modules/${m.id}`}
-                                        className="bg-[#33470B] text-white px-3 py-[2px] rounded-full flex items-center gap-1 text-[10px] self-end"
+                                        className="bg-[#FCFFF7] text-[#33470B] p-2 rounded-[8px] border border-[#455F0F] hover:bg-[#e4e9d3] transition"
                                     >
-                                        Edit
-                                        <Pencil size={9} />
+                                        <Pencil size={22} />
                                     </Link>
 
                                 </div>
@@ -403,65 +467,72 @@ export default function CourseEditor({
                         ))}
 
                         {/* ADD MODULE */}
-                        <div className="bg-white shadow-md rounded-[12px] p-2 min-h-[200px] sm:min-h-[230px]">
-                            <Link
-                                href={`/admin/courses/${courseId}/modules/new`}
-                                className="rounded-[12px] w-full h-full flex flex-col items-center justify-center bg-[#E9E9E9] transition hover:bg-[#E0E0E0] text-center px-4"
-                            >
-                                <Plus size={36} />
-                                <p className="mt-3 text-gray-600 font-medium text-sm sm:text-base">
-                                    Add Module
-                                </p>
-                            </Link>
-                        </div>
+                        <Link
+                            href={`/admin/courses/${courseId}/modules/new`}
+                            className="flex items-center justify-center gap-4 border border-[#90B73B] bg-[#EBF8CD] text-[#33470B] rounded-[12px] py-4 text-[22px] font-medium hover:bg-[#e6efcd] transition"
+                        >
+                            <Plus size={36} />
+                            Add module
+                        </Link>
 
                     </div>
                 </>
             )}
 
             {/* FOOTER */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-20 mt-12 sm:mt-14">
+            <div className="flex flex-col lg:flex-row justify-between mt-14">
 
                 {mode === "create" ? (
                     <button
                         onClick={handleSaveDraft}
                         disabled={loading}
-                        className="bg-[#455F0F] text-white px-10 py-2 rounded-lg w-full sm:w-auto disabled:opacity-60"
+                        className="bg-[#455F0F] text-white px-6 py-3 rounded-[8px] flex items-center justify-center gap-3 text-[16px] font-medium disabled:opacity-60"
                     >
                         Save & Continue
                     </button>
                 ) : (
                     <>
+                        {/* DELETE */}
                         <button
                             onClick={handleDelete}
                             disabled={loading}
-                            className="border border-red-500 text-red-500 px-8 py-2 rounded-lg w-full sm:w-auto disabled:opacity-60"
+                            className="border-1 border-[#B91C1C] text-[#B91C1C] px-6 py-3 rounded-[8px] flex items-center justify-center gap-3 text-[16px] font-medium hover:bg-red-50 transition disabled:opacity-60"
                         >
-                            Delete
+                            Delete Course
+                            <Trash2 size={22} />
                         </button>
 
+                        {/* DRAFT */}
                         <button
                             onClick={handleSaveDraft}
                             disabled={loading}
-                            className="border border-gray-400 px-8 py-2 rounded-lg w-full sm:w-auto disabled:opacity-60"
+                            className="border-1 border-[#7B7B7B] text-[#3E3E3E] px-6 py-3 rounded-[8px] flex items-center justify-center gap-3 text-[16px] font-medium hover:bg-gray-100 transition disabled:opacity-60"
                         >
-                            Save Draft
+                            Draft
+                            <FileEdit size={20} />
                         </button>
 
+                        {/* PUBLISH */}
                         <button
                             onClick={handlePublish}
                             disabled={loading}
-                            className={`px-8 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto text-white disabled:opacity-60
-            ${status === "published" ? "bg-gray-500" : "bg-[#455F0F]"}
+                            className={`px-6 py-3 rounded-[8px] flex items-center justify-center gap-3 text-[16px] font-medium transition disabled:opacity-60
+          ${status === "published"
+                                    ? "text-[#FF5A1E] border border-[#FF5A1E]"
+                                    : "bg-[#455F0F] hover:bg-[#3c530c] text-white"
+                                }
         `}
                         >
                             {status === "published" ? "Unpublish" : "Publish"}
-                            <ArrowUp size={16} />
+
+                            {status === "published" ? (
+                                <ArrowDown size={22} />
+                            ) : (
+                                <ArrowUp size={22} />
+                            )}
                         </button>
                     </>
-
                 )}
-
             </div>
 
         </div>

@@ -82,12 +82,12 @@ export default function SignupPage() {
     // ---------- UI ----------
     return (
         <main className="min-h-screen bg-[#FCFFF7]">
-            <section className="min-h-screen p-[12px] flex items-center justify-center">
+            <section className="min-h-screen p-[12px] flex lg:items-stretch justify-center">
 
-                <div className="w-full max-w-[1400px] min-h-[calc(100vh-24px)] grid grid-cols-1 lg:grid-cols-2 gap-[32px] lg:gap-[64px]">
+                <div className="w-full max-w-[1400px] h-[calc(100vh-24px)] grid grid-cols-1 lg:grid-cols-2 gap-[32px] lg:gap-[64px]">
 
                     {/* IMAGE */}
-                    <div className="relative w-full h-[300px] sm:h-[420px] lg:h-full overflow-hidden rounded-[32px]">
+                    <div className="relative hidden lg:block h-full overflow-hidden rounded-[32px]">
                         <Image
                             src="/loginimg.png"
                             alt="Buddy’s Burrow Rabbit"
@@ -99,9 +99,9 @@ export default function SignupPage() {
                     </div>
 
                     {/* FORM */}
-                    <div className="flex items-center">
+                    <div className="flex items-center lg:items-start lg:h-full lg:overflow-y-auto">
                         <form onSubmit={handleSubmit}
-                            className="w-full max-w-[460px] mx-auto py-[24px] sm:py-[40px]">
+                            className="w-full max-w-[460px] mx-auto py-[24px] lg:py-[40px]">
 
                             <h1 className="font-poppins text-[#00360C] text-[32px] sm:text-[48px] font-medium mb-[8px]">
                                 Sign Up

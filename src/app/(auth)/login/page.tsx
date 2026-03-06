@@ -26,13 +26,11 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    // Empty validation
     if (!email || !password) {
       setError("Please enter email and password");
       return;
     }
 
-    // Email format validation
     if (!isValidEmail(email)) {
       setError("Please enter a valid email address");
       return;
@@ -40,48 +38,80 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    // 🔐 LOGIN
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
       password,
     });
 
-    setLoading(false);
+    console.log("1. signInWithPassword result:", { data, error });
 
     if (error) {
-      if (error.message.includes("Invalid login credentials")) {
-        setError("Incorrect email or password");
-      } else if (error.message.includes("Email not confirmed")) {
-        setError("Please verify your email before logging in");
-      } else {
-        setError("Something went wrong. Try again.");
-      }
+      setLoading(false);
+      setError("Incorrect email or password");
       return;
     }
 
-    router.push("/");
+    // ✅ GET USER
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log("2. getUser result:", user);
+
+    if (!user) {
+      setLoading(false);
+      router.push("/");
+      return;
+    }
+
+    // ✅ FETCH ROLE
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    console.log("3. profile fetch result:", { profile, profileError });
+
+    setLoading(false);
+
+    if (profileError || !profile) {
+      router.push("/");
+      return;
+    }
+
+    console.log("4. role is:", profile.role);
+
+    // 🎯 REDIRECT BASED ON ROLE
+    if (profile.role === "admin") {
+      console.log("5. redirecting to admin dashboard...");
+      router.refresh();
+      router.replace("/admin/dashboard");
+    } else {
+      router.refresh();
+      router.push("/");
+    }
   };
 
 
   return (
-    <main className="min-h-screen bg-[#FCFFF7]">
+    <main className="h-screen bg-[#FCFFF7] overflow-hidden">
       <section className="min-h-screen p-[12px] flex items-center justify-center">
 
-        <div className="w-full max-w-[1400px] min-h-[calc(100vh-24px)] overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-[32px] lg:gap-[64px]">
+        <div className="w-full max-w-[1400px] h-[calc(100vh-24px)] overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-[32px] lg:gap-[64px]">
 
           {/* IMAGE */}
-          <div className="relative w-full h-[300px] sm:h-[420px] lg:h-full overflow-hidden rounded-[32px]">
+          <div className="relative hidden lg:block h-full overflow-hidden rounded-[32px]">
             <Image
               src="/loginimg.png"
               alt="Buddy’s Burrow Rabbit"
               fill
               priority
-              sizes="(max-width:1024px) 100vw, 50vw"
-              className="object-cover rounded-[24px] lg:rounded-[32px]"
+              sizes="50vw"
+              className="object-cover"
             />
           </div>
 
           {/* FORM */}
-          <div className="flex items-center">
+          <div className="flex items-center h-full overflow-y-auto">
             <form
               onSubmit={handleLogin}
               className="w-full max-w-[460px] mx-auto py-[24px] sm:py-[40px]"

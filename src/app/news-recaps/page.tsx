@@ -1,5 +1,8 @@
 import Image from "next/image";
-export default function NewsAndRecapsPage() {
+import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
+
+export default async function NewsAndRecapsPage() {
 
     // const WeCombineBorder = () => (
     //     <svg
@@ -26,6 +29,15 @@ export default function NewsAndRecapsPage() {
     //     </svg>
     // );
 
+
+    const { data: newsRecaps, error } = await supabase
+        .from("news_recaps")
+        .select("id, title, thumbnail_url, created_at")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+    }
 
 
     return (
@@ -108,35 +120,44 @@ export default function NewsAndRecapsPage() {
 
                     {/* Cards */}
                     <div className="flex flex-col gap-[40px] sm:gap-[56px] lg:gap-[75px]">
-                        {[1, 2, 3, 4, 5].map((item) => (
-                            <div key={item} className="relative border border-[#CFE2A7]/40 rounded-[20px] p-[16px] sm:p-[24px] lg:p-[32px]">
-                                <div className="relative h-[220px] sm:h-[280px] md:h-[320px] lg:h-[360px] rounded-[16px] overflow-hidden">
+                        {newsRecaps?.map((item) => (
+                            <Link key={item.id} href={`/news-recaps/${item.id}`}>
+                                <div className="relative border border-[#CFE2A7]/40 rounded-[20px] p-[16px] sm:p-[24px] lg:p-[32px] cursor-pointer">
 
-                                    <Image src="/events&recaps.jpg" alt="Climate Awareness" fill className="object-cover" />
+                                    <div className="relative h-[220px] sm:h-[280px] md:h-[320px] lg:h-[360px] rounded-[16px] overflow-hidden">
 
-                                    <div className="absolute inset-x-[12px] sm:inset-x-[20px] lg:inset-x-[32px] bottom-[12px] sm:bottom-[20px]">
-                                        <div className="bg-black/30 backdrop-blur-md rounded-[12px] px-[16px] sm:px-[24px] py-[14px] flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                                        <Image
+                                            src={item.thumbnail_url}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover"
+                                        />
 
-                                            <h3 className="text-white font-medium leading-snug text-[18px] sm:text-[24px] lg:text-[32px] 2xl:text-[40px] max-w-full sm:max-w-[75%]">
-                                                Rising Awareness Around Climate Change and Sustainability
-                                            </h3>
+                                        <div className="absolute inset-x-[12px] sm:inset-x-[20px] lg:inset-x-[32px] bottom-[12px] sm:bottom-[20px]">
+                                            <div className="bg-black/30 backdrop-blur-md rounded-[12px] px-[16px] sm:px-[24px] py-[14px] flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+
+                                                <h3 className="text-white font-medium leading-snug text-[18px] sm:text-[24px] lg:text-[32px] 2xl:text-[40px] max-w-full sm:max-w-[75%]">
+                                                    {item.title}
+                                                </h3>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="flex justify-end mt-[16px]">
+                                        <div className="shrink-0 bg-white text-[#0B4F1E] text-[12px] font-semibold px-4 py-2 rounded-[8px] flex items-center gap-2">
+                                            Read More
+                                            <span className="bg-[#0B4F1E] text-white w-6 h-6 flex items-center justify-center rounded">
+                                                ↗
+                                            </span>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div className="flex justify-end mt-[16px]">
-                                    <button className="shrink-0 bg-white text-[#0B4F1E] text-[12px] font-semibold px-4 py-2 rounded-[8px] flex items-center gap-2">
-                                        Read More
-                                        <span className="bg-[#0B4F1E] text-white w-6 h-6 flex items-center justify-center rounded">
-                                            ↗
-                                        </span>
-                                    </button>
-                                </div>
-
-                            </div>
+                            </Link>
                         ))}
                     </div>
-
 
                     {/* View More */}
                     <div className="flex justify-center mt-[48px]">
@@ -146,7 +167,7 @@ export default function NewsAndRecapsPage() {
                                 ↻
                             </span>
                         </button>
-                    </div>
+                    </div>  
                 </div>
             </section>
 

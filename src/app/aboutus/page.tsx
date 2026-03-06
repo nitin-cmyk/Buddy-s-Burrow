@@ -141,7 +141,11 @@ export default function AboutPage() {
                                         <span
                                             className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
                                         >
-                                            ↗
+                                            <img
+                                                src="/arrow-up-icon.svg"
+                                                alt=""
+                                                className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                                            />
                                         </span>
                                     </button>
                                 </div>
@@ -166,7 +170,7 @@ export default function AboutPage() {
                             <div className="relative p-[16px] sm:p-[24px] lg:p-[32px] [--pad:16px] sm:[--pad:24px] lg:[--pad:32px]">
 
                                 {/* SVG BORDER */}
-                                <WeCombineBorder/>
+                                <WeCombineBorder />
 
                                 {/* ICON — TOP CLIP SPACE */}
                                 <div className="absolute top-[calc(var(--pad)-28px)] left-[calc(var(--pad)-28px)] w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] lg:w-[64px] lg:h-[64px] flex items-center justify-center rounded-[14px]">
@@ -199,7 +203,11 @@ export default function AboutPage() {
                                     <button className="flex items-center gap-3 px-3 py-1 rounded-[8px] border border-[#CFE2A7] text-[#005715] font-semibold text-[15px] bg-white transition">
                                         Learn more
                                         <span className="flex items-center justify-center w-9 h-9 rounded-[8px] bg-[#005715] text-white">
-                                            ↗
+                                            <img
+                                                src="/arrow-up-icon.svg"
+                                                alt=""
+                                                className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                                            />
                                         </span>
                                     </button>
                                 </div>

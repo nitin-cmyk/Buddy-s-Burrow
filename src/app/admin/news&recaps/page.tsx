@@ -1,58 +1,87 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
 import CreateNewsCard from "../components/CreateNewscard";
+import { supabase } from "@/lib/supabaseClient";
+
+type NewsItem = {
+  id: string;
+  title: string;
+  thumbnail_url: string;
+  created_at: string;
+};
 
 export default function NewsPage() {
 
-    // MOCK DATA
-    const news = [
-        {
-            id: 1,
-            title: "Tree Plantation Drive",
-            date: "12 Feb 2026",
-            status: "draft",
-            image: "/coursesimg.jpg"
-        },
-        {
-            id: 2,
-            title: "Wildlife Awareness Camp",
-            date: "05 Feb 2026",
-            status: "published",
-            image: "/coursesimg.jpg"
-        },
-        {
-            id: 3,
-            title: "Beach Cleanup Recap",
-            date: "29 Jan 2026",
-            status: "draft",
-            image: "/coursesimg.jpg"
-        },
-    ];
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    return (
-        <div className="p-2 sm:p-4 lg:p-6">
+  useEffect(() => {
 
-            <h1 className="text-[25px] font-medium text-[#455F0F] mb-8">
-                News & Recaps
-            </h1>
+    const fetchNews = async () => {
 
-            <div className="
-                grid
-                grid-cols-1
-                sm:grid-cols-2
-                xl:grid-cols-3
-                gap-8
-            ">
+      setLoading(true);
 
-                {news.map(item => (
-                    <NewsCard key={item.id} item={item} />
-                ))}
+      const { data, error } = await supabase
+        .from("news_recaps")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-                <CreateNewsCard />
+      if (error) {
+        console.error(error);
+        setLoading(false);
+        return;
+      }
 
-            </div>
+      setNews(data || []);
+      setLoading(false);
+    };
 
+    fetchNews();
+
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  };
+
+  return (
+    <div className="p-2 sm:p-4 lg:p-6">
+
+      <h1 className="text-[25px] font-medium text-[#455F0F] mb-8">
+        News & Recaps
+      </h1>
+
+      {loading && (
+        <div className="text-center text-[#455F0F] mb-6">
+          Loading news...
         </div>
-    );
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+
+        {news.map(item => (
+          <NewsCard
+            key={item.id}
+            item={{
+              id: item.id,
+              title: item.title,
+              date: formatDate(item.created_at),
+              status: "published",
+              image: item.thumbnail_url
+            }}
+          />
+        ))}
+
+        <CreateNewsCard />
+
+      </div>
+
+    </div>
+  );
 }

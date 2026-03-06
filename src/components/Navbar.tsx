@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, User, LogOut } from "lucide-react";
@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "Courses", href: "/courses" },
 
   { label: "Events", href: "/events" },
-  { label: "News & Recaps", href: "/news&recaps" },
+  { label: "News & Recaps", href: "/news-recaps" },
 
 ];
 
@@ -22,6 +22,8 @@ export default function Navbar() {
   const [session, setSession] = useState<any>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
 
   useEffect(() => {
@@ -36,14 +38,17 @@ export default function Navbar() {
 
   // ADD THIS NEW useEffect
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setSession(data.user ?? null);
       setLoadingAuth(false);
-    });
+    };
+
+    checkUser();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setSession(session);
+        setSession(session?.user ?? null);
       }
     );
 
@@ -53,6 +58,17 @@ export default function Navbar() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setDropdownOpen(false);
+  };
+
+  const openDropdown = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setDropdownOpen(true);
+  };
+
+  const closeDropdown = () => {
+    timeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 300); //  delay (adjust 150–300ms)
   };
 
 
@@ -110,8 +126,8 @@ export default function Navbar() {
               session ? (
                 <div
                   className="relative"
-                  onMouseEnter={() => setDropdownOpen(true)}
-                  onMouseLeave={() => setDropdownOpen(false)}
+                  onMouseEnter={openDropdown}
+                  onMouseLeave={closeDropdown}
                 >
                   {/* ICON */}
                   <div className="w-[38px] h-[38px] rounded-[8px] bg-[#005715] text-white border border-[#90B73B] flex items-center justify-center cursor-pointer">
@@ -120,18 +136,24 @@ export default function Navbar() {
 
                   {/* DROPDOWN */}
                   {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-[160px] bg-white text-black rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50">
+                    <div className="absolute right-0 top-full mt-2 w-[180px] bg-white text-[#00360C] rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50">
 
+                      {/* PROFILE */}
                       <Link
                         href="/profile"
-                        className="block px-4 py-3 text-sm hover:bg-gray-100"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium hover:bg-gray-50 transition"
                       >
+                        <User size={16} />
                         Profile
                       </Link>
 
+                      {/* DIVIDER */}
+                      <div className="h-[1px] bg-gray-200 mx-3" />
+
+                      {/* LOGOUT */}
                       <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 flex items-center gap-2"
+                        onClick={() => setShowLogoutConfirm(true)}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition"
                       >
                         <LogOut size={16} />
                         Logout
@@ -141,13 +163,13 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                  <Link
-                    href="/login"
-                    className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
-                  >
-                    Login
-                  </Link>
-                )
+                <Link
+                  href="/login"
+                  className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+                >
+                  Login
+                </Link>
+              )
             )}
 
             <Link
@@ -161,7 +183,7 @@ export default function Navbar() {
 
         {/* MOBILE MENU BUTTON */}
         <button
-          className="ml-auto md:hidden"
+          className="ml-auto lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -204,6 +226,53 @@ export default function Navbar() {
             >
               Donate Us
             </Link>
+          </div>
+        </div>
+      )}
+
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+
+          {/* BACKDROP */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setShowLogoutConfirm(false)}
+          />
+
+          {/* MODAL */}
+          <div className="relative bg-white w-[90%] max-w-[380px] rounded-2xl shadow-xl p-6 text-center animate-[fadeIn_.2s_ease]">
+
+            <h3 className="text-[18px] font-semibold text-[#00360C] mb-2">
+              Confirm Logout
+            </h3>
+
+            <p className="text-sm text-gray-500 mb-6">
+              Are you sure you want to logout?
+            </p>
+
+            <div className="flex gap-3">
+
+              {/* CANCEL */}
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium hover:bg-gray-100 transition"
+              >
+                Cancel
+              </button>
+
+              {/* LOGOUT */}
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  setShowLogoutConfirm(false);
+                  setDropdownOpen(false);
+                }}
+                className="flex-1 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
+
+            </div>
           </div>
         </div>
       )}

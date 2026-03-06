@@ -1,28 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ChevronDown, Trash2, ArrowUp } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 const categories = [
     {
-        value: "cleanup",
-        label: "Clean-Up Drives",
+        value: "Clean-Up Drive",
+        label: "Clean-Up Drive",
         icon: "/cleanupdrive.svg",
     },
     {
-        value: "workshop",
-        label: "Eco Workshops",
+        value: "Eco Workshop",
+        label: "Eco Workshop",
         icon: "/ecoworkshop.svg",
     },
     {
-        value: "school",
-        label: "School Campaigns",
+        value: "School Campaign",
+        label: "School Campaign",
         icon: "/schoolcampaign.svg",
     },
     {
-        value: "nature",
-        label: "Nature walks",
+        value: "Nature walk",
+        label: "Nature walk",
         icon: "/naturewalk.svg",
     },
 ];
@@ -36,13 +37,142 @@ export default function EventEditor() {
     const [open, setOpen] = useState(false);
 
     const eventId = params.eventId as string;
-    const mode = eventId === "new" ? "create" : "edit";
+    const mode = !eventId || eventId === "new" ? "create" : "edit";
+
+    const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(false);
+
 
     const [category, setCategory] = useState("");
     const [location, setLocation] = useState("");
-    const [time, setTime] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+
     const [date, setDate] = useState("");
+
     const [link, setLink] = useState("");
+
+
+    const handleSave = async () => {
+
+        if (loading) return;
+
+        if (!category) return alert("Category is required");
+        if (!location.trim()) return alert("Location is required");
+        if (!startTime) return alert("Start time is required");
+        if (!endTime) return alert("End time is required");
+
+        if (startTime >= endTime) {
+            return alert("End time must be after start time");
+        }
+
+        if (!date) return alert("Date is required");
+        if (!link.trim()) return alert("Link is required");
+
+        // Prevent past date
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            return alert("Event date cannot be in the past");
+        }
+
+        try {
+            setLoading(true);
+
+            if (mode === "create") {
+
+                const { error } = await supabase
+                    .from("events")
+                    .insert({
+                        category,
+                        location: location.trim(),
+                        start_time: startTime,
+                        end_time: endTime,
+                        event_date: date,
+                        link: link.trim()
+                    });
+
+                if (error) throw error;
+
+                alert("Event created successfully");
+
+            } else {
+
+                if (!eventId) throw new Error("Missing event ID");
+
+                const { error } = await supabase
+                    .from("events")
+                    .update({
+                        category,
+                        location: location.trim(),
+                        start_time: startTime,
+                        end_time: endTime,
+                        event_date: date,
+                        link: link.trim()
+                    })
+                    .eq("id", eventId);
+
+                if (error) throw error;
+
+                alert("Event updated successfully");
+            }
+
+            router.push("/admin/events");
+
+        } catch (err: any) {
+            console.error(err);
+            alert(err?.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        if (mode !== "edit" || !eventId) return;
+
+        const fetchEvent = async () => {
+            try {
+                setFetching(true);
+
+                const { data, error } = await supabase
+                    .from("events")
+                    .select("*")
+                    .eq("id", eventId)
+                    .single();
+
+                if (error) throw error;
+
+                setCategory(data.category || "");
+                setLocation(data.location || "");
+                setStartTime(data.start_time || "");
+                setEndTime(data.end_time || "");
+
+                setDate(data.event_date || "");
+                setLink(data.link || "");
+
+            } catch (err) {
+                console.error(err);
+                alert("Failed to load event");
+            } finally {
+                setFetching(false);
+            }
+        };
+
+        fetchEvent();
+    }, [mode, eventId]);
+
+    if (fetching) {
+        return (
+            <div className="flex items-center justify-center h-[60vh] text-[#455F0F] text-lg font-medium">
+                Loading event…
+            </div>
+        );
+    }
+
+
 
     return (
         <div className="px-3 sm:px-6 lg:px-10 py-5 sm:py-6 max-w-[900px] mx-auto">
@@ -57,7 +187,7 @@ export default function EventEditor() {
 
             {/* TITLE */}
             <h1 className="text-[22px] sm:text-[25px] font-medium text-[#455F0F] mb-6 sm:mb-8">
-                Create / Edit Event
+                {mode === "create" ? "Create Event" : "Edit Event"}
             </h1>
 
             {/* CATEGORY */}
@@ -122,6 +252,7 @@ export default function EventEditor() {
             <div className="border border-[#CFE2A7] rounded-[12px] px-4 py-3 mb-5 sm:mb-6">
                 <input
                     value={location}
+                    maxLength={56}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Enter the event location"
                     className="w-full outline-none text-[14px] bg-transparent placeholder:text-[#7B7B7B]"
@@ -142,12 +273,26 @@ export default function EventEditor() {
                 Time :
             </h2>
 
-            <input
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                className="w-full border border-[#CFE2A7] rounded-[12px] px-4 py-3 mb-5 sm:mb-6 outline-none text-[14px]"
-            />
+            <div className="flex items-center gap-3 mb-5 sm:mb-6">
+
+                <input
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    className="flex-1 border border-[#CFE2A7] rounded-[12px] px-4 py-3 outline-none text-[14px]"
+                />
+
+                <span className="text-[#7B7B7B] text-[14px]">to</span>
+
+                <input
+                    type="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                    className="flex-1 border border-[#CFE2A7] rounded-[12px] px-4 py-3 outline-none text-[14px]"
+                />
+
+            </div>
+
 
             {/* DATE */}
             <h2 className="text-[16px] sm:text-[20px] font-medium text-[#33470B] mb-2">
@@ -156,6 +301,7 @@ export default function EventEditor() {
 
             <input
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full border border-[#CFE2A7] rounded-[12px] px-4 py-3 mb-5 sm:mb-6 outline-none text-[14px]"
@@ -177,16 +323,42 @@ export default function EventEditor() {
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8">
 
                 {mode === "edit" && (
-                    <button className="w-full sm:w-auto border border-red-500 text-red-500 px-8 py-3 rounded-lg flex items-center justify-center gap-2">
+                    <button
+                        onClick={async () => {
+
+                            if (!confirm("Are you sure you want to delete this event?")) return;
+
+                            if (!eventId) return alert("Missing event ID");
+
+                            const { error } = await supabase
+                                .from("events")
+                                .delete()
+                                .eq("id", eventId);
+
+                            if (error) {
+                                alert(error.message);
+                                return;
+                            }
+
+                            alert("Event deleted");
+                            router.push("/admin/events");
+                        }}
+
+                        className="w-full sm:w-auto border border-red-500 text-red-500 px-8 py-3 rounded-lg flex items-center justify-center gap-2">
                         Delete Event
                         <Trash2 size={16} />
                     </button>
                 )}
 
-                <button className="w-full sm:w-auto bg-[#455F0F] text-white px-10 py-3 rounded-lg flex items-center justify-center gap-2">
-                    Save & Post
+                <button
+                    onClick={handleSave}
+                    disabled={loading}
+                    className="w-full sm:w-auto bg-[#455F0F] text-white px-10 py-3 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                    {loading ? "Saving..." : "Save & Post"}
                     <ArrowUp size={16} />
                 </button>
+
 
             </div>
 

@@ -35,6 +35,8 @@ export default function ModuleAddEdit() {
     // ================= STATE =================
     const [moduleTitle, setModuleTitle] = useState("");
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const [topics, setTopics] = useState<Topic[]>([
         { heading: "", text: "", resource: "", image: null, thumbnailUrl: null, previewUrl: null }
@@ -614,7 +616,7 @@ export default function ModuleAddEdit() {
 
                 <input
                     value={moduleTitle}
-                    maxLength={35}
+                    maxLength={120}
                     onChange={(e) => setModuleTitle(e.target.value)}
                     placeholder="Display Name for Module. (This Text will be shown as the “title of the module”)"
                     className="w-full outline-none placeholder:text-[12px] placeholder:text-[#7B7B7B] bg-transparent"
@@ -774,47 +776,53 @@ export default function ModuleAddEdit() {
                         >
 
                             {/* Question Header */}
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                            <div className="mb-3">
 
-                                <div className="flex flex-wrap items-center gap-2">
+                                {/* TOP ROW */}
+                                <div className="flex items-center justify-between">
 
+                                    {/* LEFT — Question label */}
                                     <span className="text-[#33470B] font-semibold text-[20px]">
                                         Question {qi + 1} :
                                     </span>
 
-                                    <input
-                                        ref={(el) => {
-                                            if (el) questionRefs.current[qi] = el;
-                                        }}
-                                        value={q.text}
-                                        onChange={(e) => updateQuestion(qi, "text", e.target.value)}
-                                        placeholder="Type your question here"
-                                        className="w-full sm:w-[500px] outline-none text-[14px] bg-transparent"
-                                    />
+                                    {/* RIGHT — Actions */}
+                                    <div className="flex items-center gap-4">
 
+                                        {questions.length > 1 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => removeQuestion(qi)}
+                                                className="text-red-500 text-sm font-medium hover:opacity-70"
+                                            >
+                                                Remove
+                                            </button>
+                                        )}
+
+                                        <button
+                                            type="button"
+                                            onClick={() => insertBlank(qi)}
+                                            className="flex items-center gap-1 text-[13px] text-[#33470B] hover:opacity-70"
+                                        >
+                                            <Plus size={14} />
+                                            Add Blank
+                                        </button>
+
+                                    </div>
                                 </div>
 
-                                {questions.length > 1 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => removeQuestion(qi)}
-                                        className="text-red-500 text-sm font-medium hover:opacity-70 self-start sm:self-auto"
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-
-                                {/* Add Blank */}
-                                <button
-                                    type="button"
-                                    onClick={() => insertBlank(qi)}
-                                    className="flex items-center gap-1 text-[13px] text-[#33470B] hover:opacity-70"
-                                >
-                                    <Plus size={14} />
-                                    Add Blank
-                                </button>
+                                {/* INPUT ROW */}
+                                <input
+                                    ref={(el) => {
+                                        if (el) questionRefs.current[qi] = el;
+                                    }}
+                                    value={q.text}
+                                    maxLength={120}
+                                    onChange={(e) => updateQuestion(qi, "text", e.target.value)}
+                                    placeholder="Type your question here"
+                                    className="w-full mt-2 outline-none text-[14px] bg-transparent border-b border-[#CFE2A7] pb-1"
+                                />
                             </div>
-
 
                             <div className="h-[1px] bg-[#E5E5E5] mb-4"></div>
 

@@ -1,9 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function CoursesPage() {
+
+    const [courses, setCourses] = useState<any[]>([]);
+    const [loadingCourses, setLoadingCourses] = useState(true);
+    const router = useRouter();
+
+    const fetchCourses = async () => {
+        try {
+
+            const { data, error } = await supabase
+                .from("courses")
+                .select("id, title, cover_image_url, display_order")
+                .eq("status", "published")
+                .order("display_order", { ascending: true, nullsFirst: false })
+                .order("created_at", { ascending: false });
+
+            if (error) throw error;
+
+            setCourses(data || []);
+
+        } catch (err) {
+            console.error(err);
+            alert("Failed to load courses");
+        } finally {
+            setLoadingCourses(false);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchCourses();
+    }, []);
+
 
     function FAQAccordion() {
         const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -26,6 +60,7 @@ export default function CoursesPage() {
                 a: "Yes, students receive a certificate after completing the course and associated learning activities, recognizing their effort and understanding.",
             },
         ];
+
 
         return (
             <div className="flex flex-col">
@@ -248,172 +283,52 @@ export default function CoursesPage() {
                         BROWSE OUR COURSES
                     </h3>
 
-                    {/* Courses Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px] sm:gap-[28px] lg:gap-[40px]">
 
-                        {/* COURSE CARD (reuse this block) */}
-                        <div className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
+                        {loadingCourses && (
+                            <div className="text-[#00360C]">Loading courses...</div>
+                        )}
 
-                            {/* Image Wrapper */}
-                            <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
+                        {!loadingCourses && courses.length === 0 && (
+                            <div className="text-[#00360C]">No courses available</div>
+                        )}
 
-                                <Image
-                                    src="/coursesimg.jpg"
-                                    alt="Course"
-                                    fill
-                                    className="object-cover"
-                                />
+                        {courses.map(course => (
+                            <div key={course.id} className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
 
-                                {/* Centered Glass Title */}
-                                <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
-                                    <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                                        <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
-                                            Lorem Ipsum – This is just a sample text, the original text may vary
-                                        </h4>
+                                <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
+
+                                    <Image
+                                        src={course.cover_image_url || "/coursesimg.jpg"}
+                                        alt={course.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+
+                                    <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
+                                        <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
+                                            <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
+                                                {course.title}
+                                            </h4>
+                                        </div>
                                     </div>
+
+                                </div>
+
+                                <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
+                                    <button
+                                        onClick={() => router.push(`/courses/${course.id}`)}
+                                        className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300"
+                                    >
+                                        Continue
+                                    </button>
                                 </div>
 
                             </div>
-
-                            {/* Button */}
-                            <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
-                                <button className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300">
-                                    Continue
-                                </button>
-                            </div>
-
-                        </div>
-                        {/* COURSE CARD (reuse this block) */}
-                        <div className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
-
-                            {/* Image Wrapper */}
-                            <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
-
-                                <Image
-                                    src="/coursesimg.jpg"
-                                    alt="Course"
-                                    fill
-                                    className="object-cover"
-                                />
-
-                                {/* Centered Glass Title */}
-                                <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
-                                    <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                                        <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
-                                            Lorem Ipsum – This is just a sample text, the original text may vary
-                                        </h4>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {/* Button */}
-                            <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
-                                <button className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300">
-                                    Continue
-                                </button>
-                            </div>
-
-                        </div>
-                        {/* COURSE CARD (reuse this block) */}
-                        <div className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
-
-                            {/* Image Wrapper */}
-                            <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
-
-                                <Image
-                                    src="/coursesimg.jpg"
-                                    alt="Course"
-                                    fill
-                                    className="object-cover"
-                                />
-
-                                {/* Centered Glass Title */}
-                                <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
-                                    <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                                        <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
-                                            Lorem Ipsum – This is just a sample text, the original text may vary
-                                        </h4>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {/* Button */}
-                            <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
-                                <button className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300">
-                                    Continue
-                                </button>
-                            </div>
-
-                        </div>
-                        {/* COURSE CARD (reuse this block) */}
-                        <div className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
-
-                            {/* Image Wrapper */}
-                            <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
-
-                                <Image
-                                    src="/coursesimg.jpg"
-                                    alt="Course"
-                                    fill
-                                    className="object-cover"
-                                />
-
-                                {/* Centered Glass Title */}
-                                <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
-                                    <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                                        <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
-                                            Lorem Ipsum – This is just a sample text, the original text may vary
-                                        </h4>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {/* Button */}
-                            <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
-                                <button className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300">
-                                    Continue
-                                </button>
-                            </div>
-
-                        </div>
-                        {/* COURSE CARD (reuse this block) */}
-                        <div className="border border-[#90B73B] rounded-[12px] overflow-hidden bg-white">
-
-                            {/* Image Wrapper */}
-                            <div className="relative w-full h-[200px] sm:h-[240px] lg:h-[400px]">
-
-                                <Image
-                                    src="/coursesimg.jpg"
-                                    alt="Course"
-                                    fill
-                                    className="object-cover"
-                                />
-
-                                {/* Centered Glass Title */}
-                                <div className="absolute inset-0 flex items-center justify-center px-[16px] sm:px-[32px] lg:px-[100px]">
-                                    <div className="bg-black/20 backdrop-blur-[10px] rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[10px] sm:py-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                                        <h4 className="text-[16px] sm:text-[24px] lg:text-[39px] font-poppins font-medium text-white text-center leading-tight">
-                                            Lorem Ipsum – This is just a sample text, the original text may vary
-                                        </h4>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {/* Button */}
-                            <div className="p-[14px] sm:p-[18px] lg:p-[24px]">
-                                <button className="px-[18px] sm:px-[20px] py-[8px] sm:py-[10px] rounded-[8px] border border-[#00360C] text-[13px] sm:text-[15px] lg:text-[16px] font-poppins font-medium text-[#00360C] hover:bg-[#00360C] hover:text-white transition-all duration-300">
-                                    Continue
-                                </button>
-                            </div>
-
-                        </div>
-
+                        ))}
 
                     </div>
+
                 </div>
             </section>
 

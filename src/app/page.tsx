@@ -96,8 +96,8 @@ export default function Home() {
                   className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px "
                 >
                   <Image
-                    src="/wecombineicon.png"
-                    alt="We Combine icon"
+                    src="/aboutus-icon.svg"
+                    alt="About Us icon"
                     width={72}
                     height={72}
                     className="object-contain"
@@ -130,7 +130,11 @@ export default function Home() {
                     <span
                       className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
                     >
-                      ↗
+                      <img
+                        src="/arrow-up-icon.svg"
+                        alt=""
+                        className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                      />
                     </span>
                   </button>
                 </div>
@@ -180,7 +184,7 @@ export default function Home() {
                   className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px]"
                 >
                   <Image
-                    src="/wecombineicon.png"
+                    src="/course-icon.svg"
                     alt="We Combine icon"
                     width={72}
                     height={72}
@@ -211,7 +215,11 @@ export default function Home() {
                     <span
                       className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
                     >
-                      ↗
+                      <img
+                        src="/arrow-up-icon.svg"
+                        alt=""
+                        className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                      />
                     </span>
                   </button>
                 </div>
@@ -241,8 +249,8 @@ export default function Home() {
                   className=" absolute top-[2px] left-[2px] w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] flex items-center justify-center rounded-[14px "
                 >
                   <Image
-                    src="/wecombineicon.png"
-                    alt="We Combine icon"
+                    src="/event-icon.svg"
+                    alt="Events icon"
                     width={72}
                     height={72}
                     className="object-contain"
@@ -272,7 +280,11 @@ export default function Home() {
                     <span
                       className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
                     >
-                      ↗
+                      <img
+                        src="/arrow-up-icon.svg"
+                        alt=""
+                        className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                      />
                     </span>
                   </button>
                 </div>

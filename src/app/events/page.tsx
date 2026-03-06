@@ -1,10 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function EventsPage() {
   const [selectedActivity, setSelectedActivity] = useState(0);
+  const [events, setEvents] = useState<any[]>([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+
+  const NotchedBorder = () => (
+    <svg
+      viewBox="0 0 620 560"
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ pointerEvents: "none" }} 
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <mask id="notch-mask" fill="white">
+        <path d="M608 0C614.627 0 620 5.37258 620 12V488C620 492.418 616.418 496 612 496H428C421.373 496 416 501.373 416 508V552C416 556.418 412.418 560 408 560H12C5.37258 560 0 554.627 0 548V84C0 79.5817 3.58172 76 8 76H68C72.4183 76 76 72.4183 76 68V8C76 3.58172 79.5817 0 84 0H608Z" />
+      </mask>
+
+      <path
+        d="M608 0C614.627 0 620 5.37258 620 12V488C620 492.418 616.418 496 612 496H428C421.373 496 416 501.373 416 508V552C416 556.418 412.418 560 408 560H12C5.37258 560 0 554.627 0 548V84C0 79.5817 3.58172 76 8 76H68C72.4183 76 76 72.4183 76 68V8C76 3.58172 79.5817 0 84 0H608Z"
+        stroke="#CFE2A7"
+        strokeWidth="2"
+        mask="url(#notch-mask)"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
 
   const activities = [
     {
@@ -33,6 +59,42 @@ export default function EventsPage() {
     }
   ];
 
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .order("event_date", { ascending: true });
+
+      if (error) throw error;
+
+      setEvents(data || []);
+    } catch (err) {
+      console.error("Events fetch error:", err);
+    } finally {
+      setLoadingEvents(false);
+    }
+  };
+
+  const formatEventDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    return {
+      monthYear: date.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      }),
+      day: date.getDate(),
+      weekday: date.toLocaleDateString("en-US", {
+        weekday: "long",
+      }),
+    };
+  };
+
   return (
     <main className="w-full min-h-screen bg-[#FCFFF7]">
 
@@ -53,7 +115,7 @@ export default function EventsPage() {
           {/* Glass text */}
           <div className="absolute bottom-[20px] sm:bottom-[28px] lg:bottom-[80px] left-[16px] sm:left-[24px] lg:left-[92px] z-10 max-w-[300px] sm:max-w-[420px] lg:max-w-[520px]">
             <div className="bg-black/20 backdrop-blur-[10px]  shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
-              <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[52px] font-medium font-poppins leading-[62px]">
+              <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[52px] font-medium font-poppins">
                 Join Hands, Take Action, Make an Impact.
               </h2>
             </div>
@@ -82,116 +144,122 @@ export default function EventsPage() {
       {/* ================= UPCOMING EVENTS SECTION ================= */}
       <section className="w-full px-4 sm:px-6 lg:px-[82px] mt-10">
         <div className="max-w-[1276px] mx-auto flex flex-col gap-[36px]">
+
           <h3 className="text-[28px] sm:text-[40px] text-center lg:text-[61px] font-poppins text-[#002E0B] font-medium">
             Upcoming Events
           </h3>
 
-          {/* ================= EVENT ROW 1 ================= */}
-          <div className="flex flex-col lg:flex-row gap-[36px]">
+          {loadingEvents && (
+            <div className="text-center text-[#00360C]">Loading events...</div>
+          )}
 
-            {/* LEFT: Event Details */}
-            <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
-              <h3 className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] leading-[32px] lg:leading-[47px] text-[#00360C] ">
-                <span className="text-[31px]">Clean Up Drive</span>  – Clean up drive at Hell&apos;s Kitchen, New York street no 72-84
-              </h3>
+          {!loadingEvents && events.length === 0 && (
+            <div className="text-center text-[#00360C]">No events scheduled</div>
+          )}
 
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                <span className="text-[31px]">Venue</span> – New York, Hell&apos;s Kitchen, Street No – 24, Manhattan
-              </p>
+          {!loadingEvents && events.map((event, index) => {
 
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                Date – 13 – Jan – 2026
-              </p>
+            const { monthYear, day, weekday } = formatEventDate(event.event_date);
+            const isSwapped = index % 2 !== 0;
 
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                Time – 10:00 AM to 01:00 PM
-              </p>
+            const DetailCard = (
+              <div className="relative w-full isolate lg:basis-1/2 rounded-[12px] aspect-[620/560]">
 
-              <p className="font-poppins font-normal text-[14px] sm:text-[16px] leading-[22px] lg:leading-[24px] italic text-[#00360C] mt-2">
-                Help restore a public space and learn how waste impacts local ecosystems.
-              </p>
-            </div>
+                {/* SVG BORDER */}
+                <div className="absolute inset-0 z-[1] pointer-events-none">
+                  <NotchedBorder />
+                </div>
 
-            {/* RIGHT: Date Card (Glass) */}
-            <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
+                {/* CONTENT */}
+                <div className="absolute inset-0 z-[10] px-6 sm:px-8 lg:px-[50px] flex flex-col justify-center">
 
-              {/* Glass layers */}
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
-              <div className="absolute inset-0 bg-white/5" />
+                  {/* TOP SAFE AREA (top notch = 76px) */}
+                  <div className="pt-[13.6%] flex flex-col gap-[clamp(8px,1.2vw,15px)]">
 
-              {/* Content */}
-              <div className="relative z-10 w-full text-center">
-                <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
-                  January 2026
-                </p>
-                <div className="w-full h-[1px] bg-[#CFE2A7]" />
+                    <h3 className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] text-[#00360C]">
+                      <span className="text-[clamp(18px,2.4vw,31px)]">{event.category}</span>
+                    </h3>
+
+                    <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[25px] text-[#00360C]">
+                      <span className="text-[clamp(18px,2.4vw,31px)]">Location</span> – {event.location}
+                    </p>
+
+                    <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] text-[#00360C]">
+                      Time – {event.start_time} to {event.end_time}
+                    </p>
+
+                    <p className="font-poppins text-[14px] sm:text-[16px] italic text-[#00360C]">
+                      This event is supervised by the Buddy’s Burrow team and follows all safety guidelines.
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {/* BUTTON — notch placement */}
+
+                <div
+                  className="absolute z-[50] pointer-events-auto"
+                  style={{
+                    right: "0.1%",
+                    bottom: "0.23%",
+                    width: "31%",
+                    height: "9.30%",
+                  }}
+                >
+
+                  <a
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer" className="w-full h-full flex items-center gap-[2px] sm:gap-[4px] lg:gap-[7px] border-[1px] border-[#005715] rounded-[4px] sm:rounded-[8px] pl-[4%] pr-[1%] bg-[#FCFFF7]">
+
+                    <span className="font-poppins font-medium text-[#005715] whitespace-nowrap text-wrap text-[12px] sm:text-[16px]">
+                      Show Interest
+                    </span>
+
+                    <span className="bg-[#005715] text-white rounded-[4px] sm:rounded-[6px]
+                 flex items-center justify-center
+                 h-[90%] aspect-square shrink-0">
+                      <img
+                        src="/arrow-up-icon.svg"
+                        alt=""
+                        className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
+                      />
+                    </span>
+                  </a>
+                </div>
               </div>
+            );
 
-              <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
-                13
-              </p>
+            const DateCard = (
+              <div className="relative w-full lg:basis-1/2 rounded-[24px] aspect-[620/560] p-4 sm:p-6 lg:p-[30px] flex flex-col items-center justify-center gap-[6px] overflow-hidden shadow-sm">
+                <div className="absolute inset-0 bg-white/2" />
 
-              <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
-                Tuesday
-              </p>
-            </div>
-          </div>
+                <div className="relative z-10 w-full text-center">
+                  <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[58px] text-[#002E0B] pb-3">
+                    {monthYear}
+                  </p>
+                  <div className="w-full h-[1px] bg-[#CFE2A7]" />
+                </div>
 
-          {/* 🔹 MOBILE DIVIDER BETWEEN EVENTS */}
-          <div className="lg:hidden w-full flex items-center justify-center">
-            <div className="w-full h-[1px] bg-[#CFE2A7]" />
-          </div>
-
-          {/* ================= EVENT ROW 2 (SWAPPED) ================= */}
-          <div className="flex flex-col lg:flex-row gap-[36px]">
-
-            {/* LEFT: Date Card */}
-            <div className="relative w-full lg:w-[620px] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col items-center justify-center gap-[8px] overflow-hidden group">
-
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent blur-2xl rotate-[-45deg] scale-150 transition-all duration-500 group-hover:rotate-[45deg]" />
-              <div className="absolute inset-0 bg-white/5" />
-
-              <div className="relative z-10 w-full text-center">
-                <p className="font-poppins font-bold text-[28px] sm:text-[42px] lg:text-[61px] leading-tight text-[#002E0B] pb-3">
-                  February 2026
+                <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[200px] text-[#002E0B]">
+                  {day}
                 </p>
-                <div className="w-full h-[1px] bg-[#CFE2A7]" />
+
+                <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[48px] text-[#002E0B]">
+                  {weekday}
+                </p>
               </div>
+            );
 
-              <p className="relative z-10 font-poppins font-bold text-[120px] sm:text-[180px] lg:text-[250px] leading-none lg:leading-[260px] text-[#002E0B]">
-                20
-              </p>
-
-              <p className="relative z-10 font-poppins font-bold text-[28px] sm:text-[40px] lg:text-[56px] leading-tight text-[#002E0B]">
-                Thursday
-              </p>
-            </div>
-
-            {/* RIGHT: Event Details */}
-            <div className="w-full lg:w-[620px] bg-[#FCFFF7] border border-[#CFE2A7] rounded-[24px] p-6 sm:p-8 lg:p-[50px] flex flex-col gap-[15px]">
-              <h3 className="font-poppins font-medium text-[20px] sm:text-[24px] lg:text-[31px] leading-[32px] lg:leading-[47px] text-[#00360C]">
-                Event Name or Title – Nature Walk at Central Park
-              </h3>
-
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                Venue – New York, Central Park, North Meadow
-              </p>
-
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                Date – 20 – Feb – 2026
-              </p>
-
-              <p className="font-poppins font-medium text-[18px] sm:text-[22px] lg:text-[31px] leading-[30px] lg:leading-[47px] text-[#00360C]">
-                Time – 09:00 AM to 12:00 PM
-              </p>
-
-              <p className="font-poppins font-normal text-[14px] leading-[22px] lg:leading-[24px] italic text-[#00360C] mt-2">
-                Explore local ecosystems and learn about native plants and wildlife.
-              </p>
-            </div>
-          </div>
+            return (
+              <div key={event.id} className="flex flex-col lg:flex-row gap-[36px]">
+                {!isSwapped && DetailCard}
+                {DateCard}
+                {isSwapped && DetailCard}
+              </div>
+            );
+          })}
 
         </div>
       </section>
@@ -199,16 +267,16 @@ export default function EventsPage() {
       {/* ================= WHAT WE DO SECTION ================= */}
       <section className="w-full bg-[#005715] px-4 sm:px-6 lg:px-[82px] py-12 lg:py-16 mt-16 lg:mt-20">
         <div className="max-w-[1276px] mx-auto">
-          <h2 className="font-poppins font-semibold text-2xl sm:text-3xl lg:text-[32px] text-center text-white mb-8">
+          <h2 className="font-poppins font-medium text-2xl sm:text-3xl lg:text-[58px] text-center text-white mb-8">
             What We Do <span>@Buddy&apos;s Burrow</span>
           </h2>
 
-          <p className="font-poppins font-normal text-sm sm:text-base text-center text-white/90 leading-relaxed max-w-[900px] mx-auto mb-12">
+          <p className="font-poppins font-normal text-[16px] sm:text-[20px] text-center text-white/90 leading-relaxed max-w-[1200px] mx-auto mb-12">
             Every event we conduct is thoughtfully planned to make a meaningful experience for students while keeping safety our top priority. We provide clear guidance, supervision, and support so that kids feel confident in their actions and understand the purpose behind every task.
           </p>
 
           {/* Icons Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12 place-items-center">
+          <div className="flex flex-row flex-wrap gap-12 items-center justify-center mb-12 place-items-center">
             {activities.map((activity, index) => {
               return (
                 <button
@@ -281,7 +349,6 @@ export default function EventsPage() {
           {/* Activity Display Card */}
           <div
             className="
-              bg-[#004512]
               border border-[#90B73B]
               rounded-[24px]
               p-8
@@ -315,7 +382,7 @@ export default function EventsPage() {
             {/* Text Content (Right Side with Border) */}
             <div
               className="
-                w-full lg:w-[620px]
+                flex-1 min-h-[320px]
                 h-auto lg:h-[560px]
                 border border-[#90B73B]
                 rounded-[16px]
@@ -324,19 +391,11 @@ export default function EventsPage() {
               "
             >
               <div className="flex items-start gap-3 mb-4">
-                <div className="relative w-10 h-10 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
+                <div className="relative w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden"
                   style={{
                     boxShadow: 'inset 0 0 15px rgba(255,255,255,0.3), 0 4px 16px rgba(0,0,0,0.1)'
                   }}
                 >
-                  {/* Glass effect */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent"
-                    style={{
-                      transform: 'rotate(45deg) scale(1.5)',
-                      filter: 'blur(15px)',
-                    }}
-                  />
 
                   <Image
                     src={activities[selectedActivity].iconImage}
@@ -362,18 +421,18 @@ export default function EventsPage() {
       {/* ================= SAFETY & SUPERVISION SECTION ================= */}
       <section
         id="safety"
-        className="w-full px-4 sm:px-6 lg:px-[50px] mt-16 lg:mt-20"
+        className="w-full px-4 sm:px-6 lg:px-[50px] mt-16 lg:mt-20 pb-16"
       >
         {/* Outer Container */}
         <div
           className="
-            max-w-[1340px]
+            max-w-[1340px] p-6
             h-auto lg:h-[384px]
             mx-auto
             border border-[#CFE2A7]
             rounded-[24px]
             bg-[#FCFFF7]
-            flex items-center
+            flex items-center justify-center
           "
         >
           {/* Inner Container */}
@@ -387,7 +446,7 @@ export default function EventsPage() {
               rounded-[16px]
               p-8
               flex flex-col
-              gap-[36px]
+              gap-[36px] items-center justify-center
             "
           >
             {/* Content Wrapper */}

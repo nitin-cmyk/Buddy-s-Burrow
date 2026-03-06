@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,6 +12,9 @@ import { LayoutDashboard, BookOpen, Calendar, Newspaper, DollarSign, LogOut, Men
 export default function AdminSidebar() {
 
     const pathname = usePathname();
+    const router = useRouter();
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
 
     const navItems = [
         { label: "Dashboard", icon: <LayoutDashboard size={18} />, href: "/admin/dashboard" },
@@ -21,6 +26,17 @@ export default function AdminSidebar() {
 
 
     const [open, setOpen] = useState(false);
+
+    const handleLogout = async () => {
+        setLoggingOut(true);
+
+        await supabase.auth.signOut();
+
+        setLoggingOut(false);
+        setConfirmOpen(false);
+
+        window.location.href = "/login";
+    };
 
     return (
         <>
@@ -87,12 +103,51 @@ export default function AdminSidebar() {
                 </div>
 
                 {/* LOGOUT */}
-                <button className="flex items-center justify-center gap-2 border border-[#B91C1C] text-[#B91C1C] py-2 rounded-[8px] hover:bg-red-50 transition">
+                <button
+                    onClick={() => setConfirmOpen(true)}
+                    className="flex items-center font-medium text-[16px] justify-center gap-2 border border-[#B91C1C] text-[#B91C1C] py-3 rounded-[8px] hover:bg-red-50 transition"
+                >
                     Log Out
-                    <LogOut size={16} />
+                    <LogOut size={20} />
                 </button>
-
             </aside>
+
+            {confirmOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+                    <div className="bg-white w-[90%] max-w-[380px] rounded-[16px] p-6 shadow-xl">
+
+                        <h3 className="text-[20px] font-semibold text-[#00360C] mb-2">
+                            Confirm Logout
+                        </h3>
+
+                        <p className="text-[#6B7280] text-[14px] mb-6">
+                            Are you sure you want to log out?
+                        </p>
+
+                        <div className="flex justify-end gap-3">
+
+                            <button
+                                onClick={() => setConfirmOpen(false)}
+                                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={handleLogout}
+                                disabled={loggingOut}
+                                className="px-4 py-2 rounded-lg bg-[#B91C1C] text-white hover:bg-red-700"
+                            >
+                                {loggingOut ? "Logging out..." : "Logout"}
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            )}
         </>
     );
 }
@@ -105,3 +160,5 @@ function SideItem({ icon, label, active }: any) {
         </div>
     );
 }
+
+
