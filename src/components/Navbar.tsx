@@ -98,14 +98,14 @@ export default function Navbar() {
             height={48}
             priority
           />
-          <span className="sm:text-[24px] text-[18px] font-medium font-poppins whitespace-nowrap">
+          <span className="sm:text-[24px] text-[18px] font-medium font-poppins leading-none whitespace-nowrap">
             Buddy’s Burrow
           </span>
         </Link>
 
         {/* DESKTOP MENU */}
         <div className="flex justify-between gap-16">
-          <div className="hidden md:flex mx-auto items-center gap-[58px]">
+          <div className="hidden lg:flex mx-auto items-center gap-[40px]">
             {NAV_LINKS.map((item) => (
               <Link
                 key={item.label}
@@ -121,7 +121,7 @@ export default function Navbar() {
           </div>
 
           {/* DESKTOP ACTIONS */}
-          <div className="hidden md:flex items-center gap-3 ml-auto">
+          <div className="hidden lg:flex items-center gap-3 ml-auto">
             {!loadingAuth && (
               session ? (
                 <div
@@ -165,7 +165,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+                  className="lg:w-[115px] px-4 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B] text-center"
                 >
                   Login
                 </Link>
@@ -174,7 +174,7 @@ export default function Navbar() {
 
             <Link
               href="/donateus"
-              className="px-5 py-2 rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
+              className="lg:w-[115px] px-4 py-2 text-center rounded-md text-sm font-medium font-poppins bg-[#005715] text-white border border-[#90B73B]"
             >
               Donate Us
             </Link>
@@ -210,23 +210,49 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <div className="flex gap-3 pt-4">
-            <Link
-              href="/login"
-              onClick={() => setMenuOpen(false)}
-              className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
-            >
-              Login
-            </Link>
+          {!loadingAuth && (
+            <div className="flex flex-col max-w-[120px] gap-3 pt-4">
 
-            <Link
-              href="/#donate"
-              onClick={() => setMenuOpen(false)}
-              className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
-            >
-              Donate Us
-            </Link>
-          </div>
+              {session ? (
+                <>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
+                  >
+                    Profile
+                  </Link>
+
+                  <button
+                    onClick={async () => {
+                      await supabase.auth.signOut();
+                      setMenuOpen(false);
+                    }}
+                    className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-red-600 text-white text-center"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
+                >
+                  Login
+                </Link>
+              )}
+
+              <Link
+                href="/donateus"
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 px-4 py-2 rounded-md text-sm font-medium bg-[#005715] text-white border border-[#90B73B] text-center"
+              >
+                Donate Us
+              </Link>
+
+            </div>
+          )}
         </div>
       )}
 

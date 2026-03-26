@@ -1,19 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function EventsPage() {
   const [selectedActivity, setSelectedActivity] = useState(0);
   const [events, setEvents] = useState<any[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const iconRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [glassX, setGlassX] = useState(0);
+  const rowRef = useRef<HTMLDivElement | null>(null);
 
   const NotchedBorder = () => (
     <svg
       viewBox="0 0 620 560"
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ pointerEvents: "none" }} 
+      style={{ pointerEvents: "none" }}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
@@ -34,28 +37,28 @@ export default function EventsPage() {
 
   const activities = [
     {
-      iconImage: "/cleanupicon.png",
+      iconImage: "/cleanupicon100.svg",
       title: "Clean-Up Drives",
       description: "Clean-up drives are one of our most impactful activities. Students come together to restore parks, beaches, playgrounds, and community areas by collecting waste, identifying recyclables, and learning how pollution affects ecosystems. These drives help young volunteers understand the real consequences of littering and the importance of taking responsibility for the spaces we share. Each event is fully supervised by our team, ensuring safety while giving students the chance to make a visible and meaningful difference in their environment.",
       image: "/cleanup.jpg"
     },
     {
-      iconImage: "/naturewalkicon.png",
-      title: "Nature Walks",
-      description: "Nature walks give students the opportunity to observe the environment up close. Led by trained educators, these guided explorations help participants learn about native plants, local wildlife, soil types, micro-ecosystems, and ecological relationships. Students develop curiosity, observation skills, and an appreciation for the natural world. These sessions also promote mindfulness and help young learners reconnect with nature — something rarely experienced in a screen-filled world. Every walk is conducted safely with planned routes and full supervision.",
-      image: "/nature-walk.jpg"
-    },
-    {
-      iconImage: "/workshopicon.png",
+      iconImage: "/ecoworkshopicon.svg",
       title: "Eco Workshops",
       description: "Our workshops turn learning into creativity. Students participate in hands-on activities like recycling crafts, eco-art, compost demonstrations, climate awareness games, and simple science experiments that explain environmental concepts in a fun, practical way. These workshops build problem-solving skills, teamwork, and confidence while helping students understand how small habits can lead to big change. Every activity is safe, supervised, and designed to make students feel excited about taking care of the planet.",
       image: "/workshop.jpg"
     },
     {
-      iconImage: "/outreachicon.png",
+      iconImage: "/schoolcampaignicon.svg",
       title: "School Campaigns",
       description: "Our awareness campaigns bring environmental education directly to classrooms. We introduce students to topics like climate change, biodiversity, waste management, and sustainable living in a way that is simple, relatable, and exciting. Through demonstrations, visual learning tools, and interactive challenges, students gain the knowledge they need to make informed decisions and develop strong habits that protect the planet. Every session is designed to inspire and empower participants while maintaining a safe and supportive environment.",
       image: "/outreach.jpg"
+    },
+    {
+      iconImage: "/naturewalkicon.svg",
+      title: "Nature Walks",
+      description: "Nature walks give students the opportunity to observe the environment up close. Led by trained educators, these guided explorations help participants learn about native plants, local wildlife, soil types, micro-ecosystems, and ecological relationships. Students develop curiosity, observation skills, and an appreciation for the natural world. These sessions also promote mindfulness and help young learners reconnect with nature — something rarely experienced in a screen-filled world. Every walk is conducted safely with planned routes and full supervision.",
+      image: "/nature-walk.jpg"
     }
   ];
 
@@ -94,6 +97,54 @@ export default function EventsPage() {
       }),
     };
   };
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSelectedActivity((prev) =>
+        prev === activities.length - 1 ? 0 : prev + 1
+      );
+    }, 10000); // 10 seconds
+
+    return () => clearInterval(interval);
+  }, [activities.length]);
+
+  useEffect(() => {
+    const el = iconRefs.current[selectedActivity];
+    const row = rowRef.current;
+
+    if (!el || !row) return;
+
+    const iconRect = el.getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+
+    const iconCenter = iconRect.left + iconRect.width / 2;
+    const relativeCenter = iconCenter - rowRect.left;
+
+    const glassWidth = iconRect.width; // same size as icon
+
+    setGlassX(relativeCenter - glassWidth / 2);
+  }, [selectedActivity]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const el = iconRefs.current[selectedActivity];
+      const row = rowRef.current;
+
+      if (!el || !row) return;
+
+      const iconRect = el.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+
+      const iconCenter = iconRect.left + iconRect.width / 2;
+      const relativeCenter = iconCenter - rowRect.left;
+
+      setGlassX(relativeCenter - iconRect.width / 2);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [selectedActivity]);
 
   return (
     <main className="w-full min-h-screen bg-[#FCFFF7]">
@@ -276,79 +327,70 @@ export default function EventsPage() {
           </p>
 
           {/* Icons Grid */}
-          <div className="flex flex-row flex-wrap gap-12 items-center justify-center mb-12 place-items-center">
-            {activities.map((activity, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={() => setSelectedActivity(index)}
-                  className={`group flex flex-col items-center gap-2 transition-all ${selectedActivity === index
-                    ? 'opacity-100'
-                    : 'opacity-60 hover:opacity-80'
-                    }`}
-                >
-                  <div
-                    className={`
-                      relative w-20 h-20 rounded-2xl flex items-center justify-center 
-                      transition-all duration-500 overflow-hidden
-                      ${selectedActivity === index ? 'bg-white/20 backdrop-blur-xl' : 'bg-white/10 backdrop-blur-md'}
-                    `}
-                    style={{
-                      boxShadow: selectedActivity === index
-                        ? 'inset 0 0 20px rgba(255,255,255,0.5), 0 8px 32px rgba(0,0,0,0.1)'
-                        : 'inset 0 0 10px rgba(255,255,255,0.2), 0 4px 16px rgba(0,0,0,0.05)'
+          <div className="flex justify-center items-center flex-col mb-12">
+            <div ref={rowRef} className="relative flex gap-2 sm:gap-6 md:gap-8 lg:gap-12 items-center mb-10">
+              {/* Moving Glass Effect */}
+              <div
+                className="absolute
+  w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20
+  rounded-full
+  bg-black/10 backdrop-blur-[12px]
+  shadow-xl
+  transition-all duration-700 ease-in-out
+  before:content-[''] before:absolute before:inset-0
+  before:rounded-full
+  before:shadow-[inset_0_2px_4px_rgba(255,255,255,0.35)]
+  before:pointer-events-none"
+                style={{
+                  transform: `translateX(${glassX}px)`
+                }}
+              />
+              {activities.map((activity, index) => {
+                return (
+                  <button
+                    ref={(el) => {
+                      iconRefs.current[index] = el;
                     }}
+                    key={index}
+                    onClick={() => setSelectedActivity(index)}
+                    className={`group flex flex-col items-center gap-2 transition-all ${selectedActivity === index
+                      ? "opacity-100"
+                      : "opacity-60 hover:opacity-80"
+                      }`}
                   >
-                    {/* Glass refraction effect */}
                     <div
                       className={`
-                        absolute inset-0 transition-all duration-500
-                        ${selectedActivity === index
-                          ? 'bg-gradient-to-br from-white/40 via-transparent to-transparent'
-                          : 'bg-gradient-to-tl from-white/20 via-transparent to-transparent group-hover:from-white/30'
-                        }
-                      `}
-                      style={{
-                        transform: selectedActivity === index
-                          ? 'rotate(45deg) scale(1.5)'
-                          : 'rotate(-45deg) scale(1.5)',
-                        filter: 'blur(20px)',
-                      }}
-                    />
+                      relative
+  w-14 h-14
+  sm:w-16 sm:h-16
+  lg:w-20 lg:h-20
+  rounded-2xl
+  flex items-center justify-center
+  transition-all duration-500 overflow-hidden
+                      ${selectedActivity === index ? 'bg-transparent' : 'bg-transparent'}
+                    `}
+                    >
 
-                    {/* Frost overlay */}
-                    <div
-                      className="absolute inset-0 bg-white/5"
-                      style={{
-                        backdropFilter: 'blur(50px)',
-                      }}
-                    />
-
-                    {/* Icon Image */}
-                    <Image
-                      src={activity.iconImage}
-                      alt={activity.title}
-                      width={48}
-                      height={48}
-                      className={`
+                      {/* Icon Image */}
+                      <Image
+                        src={activity.iconImage}
+                        alt={activity.title}
+                        width={48}
+                        height={48}
+                        className={`
                         relative z-10 transition-all duration-300
-                        ${selectedActivity === index ? 'scale-110' : 'scale-100 group-hover:scale-105'}
+                        ${selectedActivity === index ? 'scale-120' : 'scale-100 group-hover:scale-105'}
                       `}
-                      style={{
-                        filter: selectedActivity === index
-                          ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                          : 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-                      }}
-                    />
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                      />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
 
-          {/* Activity Display Card */}
-          <div
-            className="
+            {/* Activity Display Card */}
+            <div
+              className="
               border border-[#90B73B]
               rounded-[24px]
               p-8
@@ -357,10 +399,10 @@ export default function EventsPage() {
               gap-[18px]
               h-auto lg:h-[624px]
             "
-          >
-            {/* Image */}
-            <div
-              className="
+            >
+              {/* Image */}
+              <div
+                className="
                 relative
                 w-full lg:w-[560px]
                 h-[260px] lg:h-[560px]
@@ -368,20 +410,20 @@ export default function EventsPage() {
                 overflow-hidden
                 flex-shrink-0
               "
-            >
-              <Image
-                src={activities[selectedActivity].image}
-                alt={activities[selectedActivity].title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 420px"
-                className="object-cover object-center"
-                priority
-              />
-            </div>
+              >
+                <Image
+                  src={activities[selectedActivity].image}
+                  alt={activities[selectedActivity].title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
 
-            {/* Text Content (Right Side with Border) */}
-            <div
-              className="
+              {/* Text Content (Right Side with Border) */}
+              <div
+                className="
                 flex-1 min-h-[320px]
                 h-auto lg:h-[560px]
                 border border-[#90B73B]
@@ -389,30 +431,31 @@ export default function EventsPage() {
                 p-6
                 flex flex-col justify-center
               "
-            >
-              <div className="flex items-start gap-3 mb-4">
-                <div className="relative w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden"
-                  style={{
-                    boxShadow: 'inset 0 0 15px rgba(255,255,255,0.3), 0 4px 16px rgba(0,0,0,0.1)'
-                  }}
-                >
+              >
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="relative w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden"
+                    style={{
+                      boxShadow: 'inset 0 0 15px rgba(255,255,255,0.3), 0 4px 16px rgba(0,0,0,0.1)'
+                    }}
+                  >
 
-                  <Image
-                    src={activities[selectedActivity].iconImage}
-                    alt={activities[selectedActivity].title}
-                    width={24}
-                    height={24}
-                    className="relative z-10"
-                  />
+                    <Image
+                      src={activities[selectedActivity].iconImage}
+                      alt={activities[selectedActivity].title}
+                      width={24}
+                      height={24}
+                      className="relative z-10"
+                    />
+                  </div>
+                  <h3 className="font-poppins font-semibold text-xl sm:text-2xl text-white">
+                    {activities[selectedActivity].title}
+                  </h3>
                 </div>
-                <h3 className="font-poppins font-semibold text-xl sm:text-2xl text-white">
-                  {activities[selectedActivity].title}
-                </h3>
-              </div>
 
-              <p className="font-poppins font-normal text-sm sm:text-base text-white/90 leading-relaxed">
-                {activities[selectedActivity].description}
-              </p>
+                <p className="font-poppins font-normal text-sm sm:text-base text-white/90 leading-relaxed">
+                  {activities[selectedActivity].description}
+                </p>
+              </div>
             </div>
           </div>
         </div>

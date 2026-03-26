@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const WeCombineBorder = () => (
@@ -44,7 +45,7 @@ export default function Home() {
           {/* Glass text */}
           <div className="absolute bottom-[20px] sm:bottom-[28px] lg:bottom-[80px] left-[16px] sm:left-[24px] lg:left-[92px] z-10 max-w-[300px] sm:max-w-[420px] lg:max-w-[520px]">
             <div className="bg-black/20 backdrop-blur-[10px]  shadow-xl rounded-[10px] sm:rounded-[12px] px-[16px] sm:px-[20px] lg:px-[24px] py-[14px] sm:py-[16px] lg:py-[20px]">
-              <h2 className="text-white text-[22px] sm:text-[28px] lg:text-[52px] font-medium font-poppins leading-[62px]">
+              <h2 className="text-white text-[24px] sm:text-[28px] lg:text-[52px] lg:leading-[62px] font-medium font-poppins">
                 Where Curious Minds Discover Nature
               </h2>
               <p className="text-white text-[18px] pt-2">
@@ -121,9 +122,9 @@ export default function Home() {
 
                 {/* BUTTON — BOTTOM RIGHT CLIP SPACE */}
                 <div
-                  className=" absolute bottom-[1px] right-[1px]"
+                  className=" absolute bottom-[1px] right-[1px] z-50"
                 >
-                  <button
+                  <Link href="/aboutus"
                     className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] border-[#005715] text-[#005715] font-semibold text-[15px] transition"
                   >
                     View more
@@ -136,7 +137,7 @@ export default function Home() {
                         className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
                       />
                     </span>
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -208,7 +209,7 @@ export default function Home() {
                 <div
                   className=" absolute bottom-[1px] right-[1px]"
                 >
-                  <button
+                  <Link href="/courses"
                     className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] bg-white border-[#005715] text-[#005715] font-semibold text-[15px] transition"
                   >
                     View courses
@@ -221,7 +222,7 @@ export default function Home() {
                         className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
                       />
                     </span>
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -273,10 +274,10 @@ export default function Home() {
                 <div
                   className=" absolute bottom-[1px] right-[1px]"
                 >
-                  <button
+                  <Link href="/events"
                     className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] border-[#005715] text-[#005715] font-semibold text-[15px] transition"
                   >
-                    View courses
+                    Explore events
                     <span
                       className="flex items-center justify-center w-9 h-9 rounded-[6px] bg-[#005715] text-white"
                     >
@@ -286,7 +287,7 @@ export default function Home() {
                         className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
                       />
                     </span>
-                  </button>
+                  </Link>
                 </div>
               </div>
 

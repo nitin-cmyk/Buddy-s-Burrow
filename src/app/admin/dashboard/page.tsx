@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { BookOpen, Leaf, Globe, DollarSign, SlidersHorizontal, ChevronDown } from "lucide-react";
+import DonutChart from "../components/DonutChart";
+import BarChart from "../components/BarChart";
 
 export default function AdminDashboard() {
 
@@ -34,21 +36,21 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* DONATION TABLE */}
-                    <div className="bg-white rounded-xl p-6 shadow-sm">
+                    {/* <div className="bg-white rounded-xl p-6 shadow-sm">
 
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-[25px] font-semibold text-[#455F0F]">Donations List</h2>
 
                             <FilterDropdown />
 
-                        </div>
+                        </div> */}
 
-                        <div className="overflow-auto border border-[#D9D9D9] rounded-[12px]">
+                    {/* <div className="overflow-auto border border-[#D9D9D9] rounded-[12px]">
 
-                            <table className="w-full border-collapse">
+                            <table className="w-full border-collapse"> */}
 
-                                {/* HEADER */}
-                                <thead className="text-[#00360C] text-[16px]">
+                    {/* HEADER */}
+                    {/* <thead className="text-[#00360C] text-[16px]">
                                     <tr>
                                         <th className="px-4 py-4 border-r border-b border-[#D9D9D9] text-left font-medium">Donor Name</th>
                                         <th className="px-4 py-4 border-r border-b border-[#D9D9D9] text-left font-medium">Transaction ID</th>
@@ -57,10 +59,10 @@ export default function AdminDashboard() {
                                         <th className="px-4 py-4 border-r border-b border-[#D9D9D9] text-left font-medium">Amount ($)</th>
                                         <th className="px-4 py-4 border-b border-[#D9D9D9] text-left font-medium">Status</th>
                                     </tr>
-                                </thead>
+                                </thead> */}
 
-                                {/* BODY */}
-                                <tbody>
+                    {/* BODY */}
+                    {/* <tbody>
                                     {donations.map((d, i) => (
                                         <tr key={i} className="text-[#00360C] text-[14px]">
                                             <td className="px-4 py-4 border-r border-b border-[#D9D9D9]">{d.name}</td>
@@ -79,9 +81,18 @@ export default function AdminDashboard() {
                                             </td>
                                         </tr>
                                     ))}
-                                </tbody>
+                                </tbody> */}
 
-                            </table>
+                    {/* </table>
+                        </div>
+                    </div> */}
+                    <div className="bg-white rounded-2xl p-6 shadow-md">
+                        <h2 className="text-green-800 font-semibold text-lg">
+                            Revenue Distribution
+                        </h2>
+                        <div className="flex flex-row justify-between">
+                            <DonutChart />
+                            <BarChart />
                         </div>
                     </div>
                 </div>

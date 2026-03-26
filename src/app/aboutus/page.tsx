@@ -1,3 +1,5 @@
+// import { Link } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 export default function AboutPage() {
 
@@ -134,7 +136,7 @@ export default function AboutPage() {
                                 <div
                                     className=" absolute bottom-[1px] right-[1px]"
                                 >
-                                    <button
+                                    <Link href="/courses"
                                         className=" flex items-center gap-3 px-1 py-1 rounded-[8px] border-[1px] border-[#005715] text-[#005715] font-semibold text-[15px] transition"
                                     >
                                         View courses
@@ -147,7 +149,7 @@ export default function AboutPage() {
                                                 className="w-[30%] h-[30%] sm:w-[35%] sm:h-[35%] lg:w-[40%] lg:h-[40%]"
                                             />
                                         </span>
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
 
@@ -265,7 +267,7 @@ export default function AboutPage() {
 
             <section className="w-full">
                 <div
-                    className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] pt-[40px] sm:pt-[60px] lg:pt-[80px] pb-[60px] sm:pb-[80px] lg:pb-[120px]">
+                    className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px] pt-[40px] sm:pt-[60px] lg:pt-[80px] pb-[10px] sm:pb-[20px] lg:pb-[40px]">
                     {/* Section Title */}
                     <h3
                         className="text-[28px] sm:text-[40px] lg:text-[64px] font-poppins font-medium text-[#00360C] text-center mb-[32px] sm:mb-[48px] lg:mb-[64px]">
